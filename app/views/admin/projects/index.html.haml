@@ -1,0 +1,30 @@
+%h1 Listing projects
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Url
+      %th Active
+      %th Icon
+      %th
+
+
+  %tbody
+    - @projects.each do |project|
+      %tr
+        %td= project.name
+        %td= project.url
+        %td= project.active == true
+        %td
+          -if project.icon?
+            = image_tag project.icon.url(:thumb)
+        %td
+          - if can? :edit, project
+            = link_to 'Edit', edit_admin_project_path(project), class: [:button, :tiny]
+          - if can? :destroy, project
+            = link_to 'Destroy', [:admin, project], :method => :delete, :data => { :confirm => 'Are you sure?' }, class: [:button, :tiny, :alert]
+
+%br
+
+= link_to 'New Project', new_admin_project_path,  class: [:button, :tiny]

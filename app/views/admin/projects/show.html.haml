@@ -1,0 +1,36 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @project.name
+%p
+  %b Url:
+  = @project.url
+%p
+  %b Active:
+  = @project.active
+%p
+  %b Slug:
+  = @project.slug
+%p
+  %b Icon:
+  = @project.icon
+%p
+  %b Icon content type:
+  = @project.icon_content_type
+%p
+  %b Icon size:
+  = @project.icon_size
+%p
+  %b Icon width:
+  = @project.icon_width
+%p
+  %b Icon height:
+  = @project.icon_height
+%p
+  %b Description:
+  = @project.description
+
+= link_to 'Edit', edit_project_path(@project)
+\|
+= link_to 'Back', projects_path
