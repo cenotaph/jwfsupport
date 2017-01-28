@@ -10,7 +10,7 @@ class User < ApplicationRecord
   friendly_id :username , :use => [ :slugged, :finders]
   has_and_belongs_to_many :projects
   mount_uploader :avatar, ImageUploader
-  
+  before_save :update_avatar_attributes
   after_create :assign_default_role
 
   def assign_default_role
@@ -65,6 +65,17 @@ class User < ApplicationRecord
     
     # self.password = SecureRandom.hex(32) if password.blank?  # generate random password to satisfy validations
     authentications.build(:provider => omniauth['provider'], :uid => omniauth['uid'], :username => identifier)
+  end
+  
+  private
+  def update_avatar_attributes
+    if avatar.present? && avatar_changed?
+      if avatar.file.exists?
+        self.avatar = avatar.file.content_type
+        self.avatar_size = avatar.file.size
+        self.avatar_width, self.avatar_height = `identify -format "%wx%h" #{avatar.file.path}`.split(/x/)
+      end
+    end
   end
   
     

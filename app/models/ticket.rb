@@ -3,7 +3,7 @@ class Ticket < ApplicationRecord
   belongs_to :project
   belongs_to :user
   has_many :screenshots
-  
+  has_many :comments
   validates_presence_of :user_id, :tickettype_id, :project_id, :name, :description
   
   accepts_nested_attributes_for :screenshots, :reject_if => proc {|attributes| attributes['image'].blank? && attributes['image_cache'].blank?}, :allow_destroy => true
@@ -22,6 +22,21 @@ class Ticket < ApplicationRecord
     end
   end
   
+  def status_class
+    case status
+    when 0
+      "primary"
+    when 1
+      "warning"
+    when 2
+      "closed"
+    when 3
+      'primary'
+    when nil
+      'primary'
+    end
+  end
+  
   def status_line
     case status
     when 0
@@ -37,6 +52,21 @@ class Ticket < ApplicationRecord
     end
   end
     
+  def resolution_class
+    case resolution
+    when nil
+      return 'warning'
+    when 1
+      return 'success'
+    when 2
+      return 'alert'
+    when 3
+      return 'secondary'
+    when 4
+      return 'secondary'
+    end    
+  end
+  
   def resolution_line
     case resolution
     when nil

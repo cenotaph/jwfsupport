@@ -14,8 +14,11 @@ Rails.application.routes.draw do
     resources :projects
   end
   
+  resources :users
 
-  resources :tickets
+  resources :tickets do
+    resources :comments
+  end
   
   match '/users/auth/:provider/callback' => 'authentications#create', :via => :get
 

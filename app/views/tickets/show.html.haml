@@ -6,47 +6,67 @@
 .row
   .small-12.columns
     .callout.primary
-      %h2= "##{@ticket.id.to_s}: #{@ticket.name}"
-      %blockquote= simple_format(@ticket.description)
-      .issuer
-        %span.name= @ticket.user.name
-        %span.date=  @ticket.created_at.strftime('%d %B %Y %H:%M')
-      .status{class: @ticket.urgency >= 3  ? :alert : false}= @ticket.urgency_line
+      %h2
+        = "##{@ticket.id.to_s}: #{@ticket.name}"
+        - if current_user.has_role? :admin
+          = link_to 'edit', edit_ticket_path(@ticket), class: [:tiny, :button, :secondary]
+      %ul.horizontal.menu
+        %li
+          %span.label{class: @ticket.tickettype_id == 1 ? :alert : (@ticket.tickettype_id == 2 ? :success : :secondary)}= @ticket.tickettype.name
+          %span.label{class: @ticket.status_class}= @ticket.status_line
+          %span.label{class: @ticket.resolution_class}= @ticket.resolution_line
+          %span.label{class: @ticket.urgency >= 3  ? :alert : false}= @ticket.urgency_line
         
+      .ticket_text
+        = simple_format(@ticket.description)
+      - unless @ticket.screenshots.empty?
+        %ul.horizontal.menu
+          - @ticket.screenshots.each do |ss|
+            %li= link_to image_tag(ss.image.url(:box)), ss.image.url, target: :_blank
+      .issuer
+        %span.name
+          submitted by
+          = @ticket.user.name
+        %span.date=  @ticket.created_at.strftime('%d %B %Y %H:%M')
+  
+- unless @ticket.comments.blank?
+  .comments_index
+    - @ticket.comments.sort_by(&:created_at).each do |comment|
+      .row
+        .small-12.columns
+          .entry{class: [comment.class.to_s.downcase, comment == @ticket.comments.sort_by(&:created_at).last ? :last : false]}
+            .row
+              .sma11-12.medium-8.columns.end
+                .row
+                  .small-2.columns
+                    = link_to image_tag(comment.user.avatar.url(:box)), comment.user, target: :_blank, class: :comment_avatar
+                  .small-10.columns
+                    .comment_type
+                      = comment.user.name + " says...."
+                    %small.date
+                      %em= l comment.created_at, format: :long
+                    .comment_content
+                      %p= simple_format comment.description
+#comment_index
+  .row
+    .small-12.medium-8.columns.end
+      .row
+        .small-2.columns
+          = image_tag current_user.avatar.url(:box)
+        
+          %p.small= link_to 'edit profile', edit_user_path(current_user), class: [:button, :tiny, :secondary, :round]
+        .small-10.columns
+          %h3 Comment
 
-%p#notice= notice
+          = semantic_form_for [ @ticket,  @comment = @ticket.comments.build(user: current_user)], html: { multipart: true, :"data-abide" => '' } do |f|
+            = f.input :user_id, as: :hidden, input_html: {value: current_user.id}
+            = f.input :description, :label => false, input_html: {:required => '', id: :comment_input_textarea}
+            = f.input :image, :label => t(:attach_image_to_comment)
+            = f.input :attachment, :label => t(:attach_attachment_to_comment)
+            = f.submit 'Save', :class => [:button, :round]
+    
+  
 
-%p
-  %b Tickettype:
-  = @ticket.tickettype
-%p
-  %b Project:
-  = @ticket.project
-%p
-  %b User:
-  = @ticket.user
-%p
-  %b Name:
-  = @ticket.name
-%p
-  %b Description:
-  = @ticket.description
-%p
-  %b Urgency:
-  = @ticket.urgency
-%p
-  %b Date requested:
-  = @ticket.date_requested
-%p
-  %b Status:
-  = @ticket.status
-%p
-  %b Relevant url:
-  = @ticket.relevant_url
-%p
-  %b Resolution:
-  = @ticket.resolution
-
-= link_to 'Edit', edit_ticket_path(@ticket)
+= link_to 'Edit', edit_ticket_path(@ticket), class: [:button, :small]
 \|
-= link_to 'Back', tickets_path
+= link_to 'Back', tickets_path, class: [:button, :small, :secondary]

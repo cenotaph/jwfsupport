@@ -14,6 +14,10 @@ class ImageUploader < CarrierWave::Uploader::Base
     "images/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
+  def default_url
+    "/assets/default_avatar.jpg"
+  end
+  
   version :box do
     process :resize_to_fill => [600, 600]
   end

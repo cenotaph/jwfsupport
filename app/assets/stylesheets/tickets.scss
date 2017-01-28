@@ -58,3 +58,22 @@ label.label {
 	*/
 	height: 34px; 
 }
+
+.ticket_text {
+  padding: 2rem;
+  font-color: #555;
+  font-style: italic;
+  font-size: 0.9em;
+}
+
+.issuer {
+  .name {
+    a {
+      color: green;
+    }
+  }
+  .date {
+    float: right;
+    color: #777;
+  }
+}
