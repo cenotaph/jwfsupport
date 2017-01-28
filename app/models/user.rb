@@ -2,13 +2,13 @@ class User < ApplicationRecord
   rolify
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :omniauthable, :registerable,
+  devise :omniauthable, :registerable, 
          :recoverable, :rememberable, :trackable
   has_many :authentications, :dependent => :destroy
   accepts_nested_attributes_for :authentications, :reject_if => proc { |attr| attr['username'].blank? }
   extend FriendlyId
   friendly_id :username , :use => [ :slugged, :finders]
-  
+  has_and_belongs_to_many :projects
   mount_uploader :avatar, ImageUploader
   
   after_create :assign_default_role

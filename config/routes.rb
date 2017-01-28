@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
 
   devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' } do
-    get "logout", to: "devise/sessions#destroy"
+    delete "/users/sign_out" => "devise/sessions#destroy"
+
   end
   resources :authentications do
     collection do
@@ -13,9 +14,14 @@ Rails.application.routes.draw do
     resources :projects
   end
   
-  match '/users/auth/:provider/callback' => 'authentications#create', :via => :get
-  delete '/users/signout' => 'devise/sessions#destroy', :as => :signout
-  root to: 'home#index'
+
+  resources :tickets
   
+  match '/users/auth/:provider/callback' => 'authentications#create', :via => :get
+
+  authenticated :user do
+    root to: 'tickets#index', as: :authenticated_root
+  end
+  root to: 'tickets#landing'
   
 end

@@ -1,0 +1,28 @@
+!!!
+%html{:lang => "en"}
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:charset => "utf-8"}/
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
+    %title= content_for?(:title) ? yield(:title) : "Support desk" 
+    %link{href: "https://fonts.googleapis.com/css?family=Lora",  rel: :stylesheet}
+    = stylesheet_link_tag "application"
+    = javascript_include_tag "application", 'data-turbolinks-track' => true
+    = csrf_meta_tags
+  %body
+    - if current_user
+      %header
+        .title-bar{:'data-responsive-toggle' => 'title_menu', :'data-hide-for' => :medium}
+          %button.menu-icon{type: :button, :'data-toggle' => 'title_menu'}
+          .title-bar-title John W. Fail's support desk
+          
+        .top-bar#title_menu
+          .top-bar-left
+            %ul.dropdown.menu{:'data-dropdown-menu' => ''}
+              %li.menu-text John W. Fail's support desk
+              %li= link_to 'My tickets', tickets_path
+
+    = yield
+    
+    :javascript
+      $(document).ready(function() { #{yield :jquery} });

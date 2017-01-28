@@ -1,0 +1,52 @@
+.row
+  .small-12.columns
+    %h1= @ticket.project.name
+
+    
+.row
+  .small-12.columns
+    .callout.primary
+      %h2= "##{@ticket.id.to_s}: #{@ticket.name}"
+      %blockquote= simple_format(@ticket.description)
+      .issuer
+        %span.name= @ticket.user.name
+        %span.date=  @ticket.created_at.strftime('%d %B %Y %H:%M')
+      .status{class: @ticket.urgency >= 3  ? :alert : false}= @ticket.urgency_line
+        
+
+%p#notice= notice
+
+%p
+  %b Tickettype:
+  = @ticket.tickettype
+%p
+  %b Project:
+  = @ticket.project
+%p
+  %b User:
+  = @ticket.user
+%p
+  %b Name:
+  = @ticket.name
+%p
+  %b Description:
+  = @ticket.description
+%p
+  %b Urgency:
+  = @ticket.urgency
+%p
+  %b Date requested:
+  = @ticket.date_requested
+%p
+  %b Status:
+  = @ticket.status
+%p
+  %b Relevant url:
+  = @ticket.relevant_url
+%p
+  %b Resolution:
+  = @ticket.resolution
+
+= link_to 'Edit', edit_ticket_path(@ticket)
+\|
+= link_to 'Back', tickets_path

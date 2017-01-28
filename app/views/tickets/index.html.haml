@@ -1,0 +1,30 @@
+%h1 Listing tickets
+
+%table
+  %thead
+    %tr
+      %th Project
+      %th Name
+      %th Date assigned
+      %th Status
+      %th Resolution
+      %th
+
+
+
+  %tbody
+    - @tickets.each do |ticket|
+      %tr
+        %td= ticket.project.name
+        %td= link_to ticket.name, ticket
+        %td= ticket.date_requested
+        %td= ticket.status_line
+        %td= ticket.resolution_line
+        %td
+          = link_to 'Show', ticket
+          - if can? :edit, ticket
+            = link_to 'Edit', edit_ticket_path(ticket), class: [:button, :tiny]
+
+%br
+
+= link_to 'New Ticket', new_ticket_path, class: [:button]

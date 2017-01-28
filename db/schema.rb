@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170124165641) do
+ActiveRecord::Schema.define(version: 20170127150003) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,11 @@ ActiveRecord::Schema.define(version: 20170124165641) do
     t.datetime "updated_at",                       null: false
   end
 
+  create_table "projects_users", id: false, force: :cascade do |t|
+    t.integer "user_id",    null: false
+    t.integer "project_id", null: false
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string   "name"
     t.string   "resource_type"
@@ -49,6 +54,42 @@ ActiveRecord::Schema.define(version: 20170124165641) do
     t.datetime "updated_at"
     t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
     t.index ["name"], name: "index_roles_on_name", using: :btree
+  end
+
+  create_table "screenshots", force: :cascade do |t|
+    t.string   "image"
+    t.integer  "image_size"
+    t.integer  "image_width"
+    t.integer  "image_height"
+    t.string   "image_content_type"
+    t.integer  "ticket_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.index ["ticket_id"], name: "index_screenshots_on_ticket_id", using: :btree
+  end
+
+  create_table "tickets", force: :cascade do |t|
+    t.integer  "tickettype_id"
+    t.integer  "project_id"
+    t.integer  "user_id"
+    t.string   "name"
+    t.text     "description"
+    t.integer  "urgency"
+    t.date     "date_requested"
+    t.integer  "status"
+    t.string   "relevant_url"
+    t.integer  "resolution"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["project_id"], name: "index_tickets_on_project_id", using: :btree
+    t.index ["tickettype_id"], name: "index_tickets_on_tickettype_id", using: :btree
+    t.index ["user_id"], name: "index_tickets_on_user_id", using: :btree
+  end
+
+  create_table "tickettypes", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -79,4 +120,8 @@ ActiveRecord::Schema.define(version: 20170124165641) do
   end
 
   add_foreign_key "authentications", "users"
+  add_foreign_key "screenshots", "tickets"
+  add_foreign_key "tickets", "projects"
+  add_foreign_key "tickets", "tickettypes"
+  add_foreign_key "tickets", "users"
 end

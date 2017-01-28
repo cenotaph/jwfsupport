@@ -57,7 +57,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'formtastic'
 gem 'foundation-rails'#, "6.3.0.0"
-gem 'foundation-datetimepicker-rails', '0.2.4'
+gem 'foundation-datepicker-rails'
 gem 'haml'
 gem "haml-rails"#, "~> 0.9"
 gem 'jquery-rails'
@@ -65,7 +65,8 @@ gem 'jquery-rails'
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
-
+gem 'foundation-icons-sass-rails'
+gem 'coffee-rails'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder

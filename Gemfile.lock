@@ -91,6 +91,13 @@ GEM
       aws-sdk (~> 2.0)
       carrierwave (>= 0.7, < 2.0)
     coderay (1.1.1)
+    coffee-rails (4.2.1)
+      coffee-script (>= 2.2.0)
+      railties (>= 4.0.0, < 5.2.x)
+    coffee-script (2.4.1)
+      coffee-script-source
+      execjs
+    coffee-script-source (1.12.2)
     concurrent-ruby (1.0.4)
     daemons (1.2.4)
     debug_inspector (0.0.2)
@@ -112,7 +119,10 @@ GEM
       railties (>= 3.2, < 5.1)
     formtastic (3.1.4)
       actionpack (>= 3.2.13)
-    foundation-datetimepicker-rails (0.2.4)
+    foundation-datepicker-rails (0.0.2)
+    foundation-icons-sass-rails (3.0.0)
+      railties (>= 3.1.1)
+      sass-rails (>= 3.1.1)
     foundation-rails (6.3.0.0)
       railties (>= 3.1.0)
       sass (>= 3.3.0, < 3.5)
@@ -323,11 +333,13 @@ DEPENDENCIES
   capistrano3-puma
   carrierwave
   carrierwave-aws
+  coffee-rails
   devise
   figaro
   font-awesome-rails (= 4.6.3.0)
   formtastic
-  foundation-datetimepicker-rails (= 0.2.4)
+  foundation-datepicker-rails
+  foundation-icons-sass-rails
   foundation-rails
   friendly_id (~> 5.1.0)
   haml

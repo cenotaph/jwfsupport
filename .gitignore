@@ -71,3 +71,8 @@ bower.json
 # Ignore Byebug command history file.
 .byebug_history
 sync_db
+config/initializers/user_mapping.rb
+support.sql
+Capfile
+config/deploy/*
+config/deploy.rb

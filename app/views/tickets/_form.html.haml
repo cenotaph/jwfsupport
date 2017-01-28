@@ -1,0 +1,42 @@
+= semantic_nested_form_for @ticket, html: {multipart: true} do |f|
+  - if @ticket.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@ticket.errors.count, "error")} prohibited this ticket from being saved:"
+      %ul
+        - @ticket.errors.full_messages.each do |msg|
+          %li= msg
+  .row
+    .small-10.medium-6.columns
+      = f.input :project, as: :select, collection: current_user.projects, member_label: Proc.new {|x| "#{x.name} / #{x.url}"}, include_blank: false
+  .row
+    .small-10.medium-6.columns= f.input :tickettype, as: :select, include_blank: false
+  .row
+    .small-10.medium-8.columns
+      = f.input :user_id, as: :hidden, input_html: {value: current_user.id}
+  .row
+    .small-10.medium-6.columns
+      = f.input :name, label: 'So, what\'s the issue?', hint: 'Enter a short description of the problem, feature request or question)'
+  .row
+    .small-10.medium-8.columns
+      = f.input :description, label: 'Give a longer description of the issue here.', hint: 'Please be descriptive and indicate what you want or expect to happen, and what actually is happening.'
+  .row
+    .small-10.medium-6.columns
+      = f.input :urgency, as: :select, collection: [["not a big deal, but would be nice to get this done", 0 ], ["would really love this to happen soon", 1], ["this is really, really important", 2], ["HOLY SHIT DROP EVERYTHING IN YOUR LIFE AND FIX THIS NOW!!!!", 3]], include_blank: false
+  .row
+    .small-10.medium-6.columns
+      = f.input :date_requested, as: :string ,  label: 'Please fix by:', input_html: {class: 'date_picker'}
+  .row
+    .small-10.medium-6.columns
+      = f.input :relevant_url, label: 'If a web-related issue, please enter the URL you were trying to access.'
+  .row
+    .small-10.medium-6.columns
+      = f.fields_for :screenshots do |ss|
+        = ss.input :image 
+      = f.link_to_add 'add a screenshot', :screenshots, class: [:button, :secondary, :tiny]
+  .row
+    .small-10.medium-6.columns
+      = f.submit 'Submit', class: [:button ]
+
+= content_for :jquery do  
+  :plain
+    $('.date_picker').fdatepicker({ format: 'dd-mm-yyyy '});
