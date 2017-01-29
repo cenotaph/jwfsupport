@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     end
   end
   
+  resources :projects
+  
   namespace :admin do
     resources :projects
   end

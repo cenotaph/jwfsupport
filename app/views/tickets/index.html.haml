@@ -15,13 +15,13 @@
   %tbody
     - @tickets.each do |ticket|
       %tr
-        %td= ticket.project.name
+        %td= link_to ticket.project.name, ticket.project
         %td= link_to ticket.name, ticket
         %td= ticket.date_requested
         %td= ticket.status_line
         %td= ticket.resolution_line
         %td
-          = link_to 'Show', ticket
+          = link_to 'Show', ticket, class: [:button, :tiny]
           - if can? :edit, ticket
             = link_to 'Edit', edit_ticket_path(ticket), class: [:button, :tiny]
 

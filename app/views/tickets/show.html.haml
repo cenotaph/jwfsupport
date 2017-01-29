@@ -66,7 +66,7 @@
             = f.submit 'Save', :class => [:button, :round]
     
   
+- if can? :edit, @ticket
+  = link_to 'Edit', edit_ticket_path(@ticket), class: [:button, :small]
 
-= link_to 'Edit', edit_ticket_path(@ticket), class: [:button, :small]
-\|
 = link_to 'Back', tickets_path, class: [:button, :small, :secondary]
