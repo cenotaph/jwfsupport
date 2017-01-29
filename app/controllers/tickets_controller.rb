@@ -4,7 +4,11 @@ class TicketsController < ApplicationController
   
   # GET /tickets
   def index
-    @tickets = Ticket.all
+    if current_user.has_role? :admin
+      @tickets = Ticket.all.order(created_at: :desc)
+    else
+      @tickets = current_user.projects.map(&:tickets).flatten.sort_by(&:created_at).reverse
+    end
   end
 
 

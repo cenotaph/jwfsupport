@@ -4,6 +4,7 @@
   %thead
     %tr
       %th Project
+      %th #
       %th Name
       %th Date assigned
       %th Status
@@ -16,6 +17,7 @@
     - @tickets.each do |ticket|
       %tr
         %td= link_to ticket.project.name, ticket.project
+        %td= ticket.id.to_s
         %td= link_to ticket.name, ticket
         %td= ticket.date_requested
         %td= ticket.status_line

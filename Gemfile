@@ -61,6 +61,7 @@ gem 'foundation-datepicker-rails'
 gem 'haml'
 gem "haml-rails"#, "~> 0.9"
 gem 'jquery-rails'
+gem 'jquery-turbolinks'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
