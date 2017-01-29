@@ -10,7 +10,7 @@ class User < ApplicationRecord
   friendly_id :username , :use => [ :slugged, :finders]
   has_and_belongs_to_many :projects
   mount_uploader :avatar, ImageUploader
-  before_save :update_avatar_attributes
+  # before_save :update_avatar_attributes
   after_create :assign_default_role
 
   def assign_default_role
@@ -68,6 +68,7 @@ class User < ApplicationRecord
   end
   
   private
+  
   def update_avatar_attributes
     if avatar.present? && avatar_changed?
       if avatar.file.exists?

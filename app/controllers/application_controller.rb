@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   include CanCan::ControllerAdditions
   before_action :configure_permitted_parameters, if: :devise_controller?
-
+  before_action :authenticate_user!
   
   rescue_from CanCan::AccessDenied do |exception|
     render json: {message: 'access denied!'}, status: 401

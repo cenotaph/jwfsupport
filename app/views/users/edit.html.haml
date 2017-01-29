@@ -1,0 +1,16 @@
+= semantic_nested_form_for @user, html: {multipart: true, :'data-abide' => ''} do |f|
+  .row
+    .small-10.medium-8.columns
+      = f.input :email, label: 'Email'
+      = f.input :username
+      = f.input :name, label: ' Your name', input_html: {:required => ''}
+  .row
+    .small-10.medium-4.columns.photo
+      - if f.object.avatar?
+        = image_tag f.object.avatar.url(:box)
+        = f.input :avatar, label: 'Change image/photo:'
+      - else
+        = image_tag 'default_avatar.jpg'
+        = f.input :avatar, label: 'Change image/photo:'   
+  .row
+    .small-12.columns= f.submit 'Save', class: [:button, :small]        
