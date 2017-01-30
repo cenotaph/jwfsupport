@@ -44,7 +44,7 @@
               %span Resolution:
               = f.input :resolution, as: :select, collection: [['open', 0], ['resolved', 1], ['invalid', 2], ['not applicable', 3], ['duplicate', 4]], include_blank: false,label: false  
             .small-12.columns
-              = f.input :system_call, as: :string, input_html: {value: 1}
+              = f.input :system_call, as: :hidden, input_html: {value: 1}
               = f.input :send_email, as: :boolean, label: 'notify ticketholder of changes via email'
               = f.submit 'Update', class: [:button, :tiny]
 - unless @ticket.comments.blank?
