@@ -87,7 +87,8 @@ Rails.application.configure do
    :user_name            => ENV['mail_username'],
    :password             => ENV['mail_password'],
    :authentication       => "plain",
-   :enable_starttls_auto => true
+   :enable_starttls_auto => true,
+   :openssl_verify_mode => OpenSSL::SSL::VERIFY_NONE
   }  
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
