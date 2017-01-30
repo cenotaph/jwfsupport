@@ -1,0 +1,25 @@
+%p Hi!
+%p
+  Your ticket
+  = "\"#{@ticket.name}\""
+  has been updated.
+  
+%p 
+  The ticket is currently marked as:
+  = @ticket.resolution_line
+  
+    
+  
+%p
+  The ticket has the status of:
+  = @ticket.status_line
+
+%p
+  To see further information on the issue, please visit the ticket via the 
+  = link_to 'online support system.', @ticket
+  
+%p
+  Thank you!
+  
+%p
+  John

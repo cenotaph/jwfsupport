@@ -74,7 +74,21 @@ Rails.application.configure do
   # Use a different logger for distributed setups.
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
 
+  
+  config.action_mailer.default_url_options = { :host => 'support.johnw.fail' , from: ENV['mail_sender']}
+  config.action_mailer.delivery_method = :smtp
+  # SMTP settings for gmail
+  config.action_mailer.smtp_settings = {
+   :address              => ENV['smtp_host'],
+   :port                 => ENV['mail_port'],
+   :user_name            => ENV['mail_username'],
+   :password             => ENV['mail_password'],
+   :authentication       => "plain",
+   :enable_starttls_auto => true
+  }  
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter

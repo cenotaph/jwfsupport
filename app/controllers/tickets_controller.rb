@@ -17,6 +17,10 @@ class TicketsController < ApplicationController
   end
   # GET /tickets/1
   def show
+    unless @ticket.project.users.include?(current_user) || current_user.has_role?(:admin) 
+      flash[:error] = 'You do not have permission to view this ticket.'
+      redirect_to '/'
+    end
   end
 
   # GET /tickets/new
@@ -41,8 +45,29 @@ class TicketsController < ApplicationController
 
   # PATCH/PUT /tickets/1
   def update
+
     if @ticket.update(ticket_params)
+
+      if params[:ticket][:system_call] == "1"
+        comment_text = []
+  
+        if @ticket.previous_changes.keys.include?("status")
+          comment_text << 'status: ' + @ticket.status_line 
+        end
+        if @ticket.previous_changes.keys.include?("urgency")
+          comment_text << 'urgency: ' + @ticket.urgency_line
+        end
+        if @ticket.previous_changes.keys.include?("resolution")
+          comment_text << 'resolution: ' + @ticket.resolution_line
+        end
+
+        Comment.create(ticket: @ticket, is_system: true, user: current_user, description: 'Changes were made to this ticket: ' + comment_text.join('; ')  )
+      end
+      if params[:ticket][:send_email] == "1"
+        TicketMailer.send_notification(@ticket).deliver_now
+      end
       redirect_to @ticket, notice: 'Ticket was successfully updated.'
+      
     else
       render :edit
     end

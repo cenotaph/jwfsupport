@@ -12,6 +12,9 @@ class CommentsController < ApplicationController
     
     if @master.save!
       flash[:notice] = 'Your comment was added.'
+      if params[:comment][:send_email] == "1"
+        CommentMailer.new_comment(c).deliver_now
+      end
     else
       flash[:error] =  'There was an error saving your comment.'
     end

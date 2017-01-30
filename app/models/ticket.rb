@@ -5,7 +5,7 @@ class Ticket < ApplicationRecord
   has_many :screenshots
   has_many :comments
   validates_presence_of :user_id, :tickettype_id, :project_id, :name, :description
-  
+  attr_accessor :send_email, :system_call
   accepts_nested_attributes_for :screenshots, :reject_if => proc {|attributes| attributes['image'].blank? && attributes['image_cache'].blank?}, :allow_destroy => true
   
   

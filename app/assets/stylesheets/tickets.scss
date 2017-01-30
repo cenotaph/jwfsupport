@@ -66,6 +66,15 @@ label.label {
   font-size: 0.9em;
 }
 
+#quick_edit {
+  span { float: left; }
+  select {
+    float: left;
+    font-size: 0.9em;
+    height: 15px;
+  }
+  font-size: 0.75em;
+}
 .issuer {
   .name {
     a {
@@ -75,5 +84,22 @@ label.label {
   .date {
     float: right;
     color: #777;
+  }
+}
+
+.comments_index {
+  .comment.row {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px dotted #832052;
+    &.system {
+      font-size: 0.9em;
+      .comment_content {
+        font-style: italic;
+        p {
+          font-size: 0.9em;
+        }
+      }
+    }
   }
 }

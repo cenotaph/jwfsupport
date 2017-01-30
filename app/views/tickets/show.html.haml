@@ -28,11 +28,29 @@
           submitted by
           = @ticket.user.name
         %span.date=  @ticket.created_at.strftime('%d %B %Y %H:%M')
-  
+- if @ticket.project.users.include?(current_user) || current_user.has_role?(:admin)
+  .row
+    .small-10.medium-9.columns#quick_edit
+      .callout.warning
+        = semantic_form_for @ticket do |f|
+          .row
+            .small-10.medium-4.columns
+              %span Urgency:
+              = f.input :urgency, label: false, as: :select,  collection: [["not a big deal, but would be nice to get this done", 0 ], ["would really love this to happen soon", 1], ["this is really, really important", 2], ["HOLY SHIT DROP EVERYTHING IN YOUR LIFE AND FIX THIS NOW!!!!", 3]], include_blank: false
+            .small-10.medium-4.columns
+              %span Status:
+              = f.input :status, as: :select, collection: [['new', 0], ['accepted', 1], ['closed', 2], ['reopened', 3]], include_blank: false, label: false
+            .small-10.medium-4.columns
+              %span Resolution:
+              = f.input :resolution, as: :select, collection: [['open', 0], ['resolved', 1], ['invalid', 2], ['not applicable', 3], ['duplicate', 4]], include_blank: false,label: false  
+            .small-12.columns
+              = f.input :system_call, as: :string, input_html: {value: 1}
+              = f.input :send_email, as: :boolean, label: 'notify ticketholder of changes via email'
+              = f.submit 'Update', class: [:button, :tiny]
 - unless @ticket.comments.blank?
   .comments_index
     - @ticket.comments.sort_by(&:created_at).each do |comment|
-      .row
+      .row.comment{class: comment.is_system == true ? :system : false }
         .small-12.columns
           .entry{class: [comment.class.to_s.downcase, comment == @ticket.comments.sort_by(&:created_at).last ? :last : false]}
             .row
@@ -42,7 +60,10 @@
                     = link_to image_tag(comment.user.avatar.url(:box)), comment.user, target: :_blank, class: :comment_avatar
                   .small-10.columns
                     .comment_type
-                      = comment.user.name + " says...."
+                      - if comment.is_system == true
+                        = comment.user.name + " edited this ticket"
+                      - else
+                        = comment.user.name + " says...."
                     %small.date
                       %em= l comment.created_at, format: :long
                     .comment_content
@@ -63,6 +84,7 @@
             = f.input :description, :label => false, input_html: {:required => '', id: :comment_input_textarea}
             = f.input :image, :label => t(:attach_image_to_comment)
             = f.input :attachment, :label => t(:attach_attachment_to_comment)
+            = f.input :send_email, as: :boolean,  label: 'Send an email notifiying that this comment was posted to ticket owner'
             = f.submit 'Save', :class => [:button, :round]
     
   

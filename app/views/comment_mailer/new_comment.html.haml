@@ -1,0 +1,23 @@
+%p Hi!
+
+%p 
+  A new comment has been posted on the ticket
+  = "\"#{@comment.ticket.name}\""
+  by
+  = @comment.user.name
+  
+%p The comment is:
+
+%blockquote
+  = simple_format(@comment.description)
+  
+%p 
+  To view this ticket or reply to this comment, please visit the
+  = link_to 'online support system.', @comment.ticket
+  
+%p
+  Thank you!
+  
+%p
+  John
+  
