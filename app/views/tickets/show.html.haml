@@ -68,6 +68,10 @@
                       %em= l comment.created_at, format: :long
                     .comment_content
                       %p= simple_format comment.description
+                      - if comment.screenshot?
+                        %p= image_tag comment.screenshot.url
+                      - if comment.attachment?
+                        %p= link_to 'Download attachment', comment.attachment.url, class: [:button, :secondary, :small]
 #comment_index
   .row
     .small-12.medium-8.columns.end
@@ -82,8 +86,8 @@
           = semantic_form_for [ @ticket,  @comment = @ticket.comments.build(user: current_user)], html: { multipart: true, :"data-abide" => '' } do |f|
             = f.input :user_id, as: :hidden, input_html: {value: current_user.id}
             = f.input :description, :label => false, input_html: {:required => '', id: :comment_input_textarea}
-            = f.input :image, :label => t(:attach_image_to_comment)
-            = f.input :attachment, :label => t(:attach_attachment_to_comment)
+            = f.input :screenshot,  label: 'Attach image/screenshot to comment?'
+            = f.input :attachment, :label => 'Attach PDF or other file to comment?'
             = f.input :send_email, as: :boolean,  label: 'Send an email notifiying that this comment was posted to ticket owner'
             = f.submit 'Save', :class => [:button, :round]
     
