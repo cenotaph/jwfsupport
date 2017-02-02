@@ -4,7 +4,7 @@ class Comment < ApplicationRecord
   validates_presence_of :ticket_id, :user_id
   
   mount_uploader :attachment, AttachmentUploader
-  mount_uploader :image, ImageUploader
+  mount_uploader :screenshot, ImageUploader
   
   before_save :update_image_attributes
   attr_accessor :send_email
@@ -12,11 +12,11 @@ class Comment < ApplicationRecord
   private
   
   def update_image_attributes
-    if image.present? && image_changed?
-      if image.file.exists?
-        self.image_content_type = image.file.content_type
-        self.image_size = image.file.size
-        self.image_width, self.image_height = `identify -format "%wx%h" #{image.file.path}`.split(/x/)
+    if screenshot.present? && screenshot_changed?
+      if screenshot.file.exists?
+        self.screenshot_content_type = screenshot.file.content_type
+        self.screenshot_size = screenshot.file.size
+        self.screenshot_width, self.screenshot_height = `identify -format "%wx%h" #{screenshot.file.path}`.split(/x/)
       end
     end
   end
