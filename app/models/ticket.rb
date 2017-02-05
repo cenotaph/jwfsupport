@@ -32,6 +32,8 @@ class Ticket < ApplicationRecord
       "closed"
     when 3
       'primary'
+    when 4
+      'warning'
     when nil
       'primary'
     end
@@ -47,6 +49,8 @@ class Ticket < ApplicationRecord
       "closed"
     when 3
       'reopened'
+    when 4
+      'waiting for feedback'
     when nil
       'new'
     end
@@ -70,6 +74,8 @@ class Ticket < ApplicationRecord
   def resolution_line
     case resolution
     when nil
+      return 'open'
+    when 0
       return 'open'
     when 1
       return 'resolved'

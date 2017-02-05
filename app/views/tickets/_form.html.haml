@@ -36,7 +36,7 @@
   - unless @ticket.new_record?
     .row
       .small-10.medium-4.columns
-        = f.input :status, as: :select, collection: [['new', 0], ['accepted', 1], ['closed', 2], ['reopened', 3]], include_blank: false
+        = f.input :status, as: :select, collection: [['new', 0], ['accepted', 1], ['closed', 2], ['reopened', 3], ['awaiting feedback', 4]], include_blank: false
     .row
       .small-10.medium-4.columns
         = f.input :resolution, as: :select, collection: [['open', 0], ['resolved', 1], ['invalid', 2], ['not applicable', 3], ['duplicate', 4]], include_blank: false        

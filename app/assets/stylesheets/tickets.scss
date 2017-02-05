@@ -113,6 +113,14 @@ td {
     padding: 5px 10px;
 }
 
+tr.waiting_for_feedback {
+  border: 1px solid red;
+  border-bottom: 1px solid red !important;
+  td {
+    background-color: #FFEEEE;
+  }
+}
+
 tr.strikeout td:before {
     content: " ";
     position: absolute;
