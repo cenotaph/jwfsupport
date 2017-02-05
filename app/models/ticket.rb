@@ -8,6 +8,18 @@ class Ticket < ApplicationRecord
   attr_accessor :send_email, :system_call
   accepts_nested_attributes_for :screenshots, :reject_if => proc {|attributes| attributes['image'].blank? && attributes['image_cache'].blank?}, :allow_destroy => true
   
+  def urgency_class
+    case urgency 
+    when 0
+      return "secondary"
+    when 1
+      return "primary"
+    when 2
+      return "warning"
+    when 3
+      return "alert"
+    end    
+  end
   
   def urgency_line
     case urgency 
@@ -29,11 +41,11 @@ class Ticket < ApplicationRecord
     when 1
       "warning"
     when 2
-      "closed"
+      "success"
     when 3
-      'primary'
-    when 4
       'warning'
+    when 4
+      'alert'
     when nil
       'primary'
     end

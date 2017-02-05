@@ -15,7 +15,7 @@
           %span.label{class: @ticket.tickettype_id == 1 ? :alert : (@ticket.tickettype_id == 2 ? :success : :secondary)}= @ticket.tickettype.name
           %span.label{class: @ticket.status_class}= @ticket.status_line
           %span.label{class: @ticket.resolution_class}= @ticket.resolution_line
-          %span.label{class: @ticket.urgency >= 3  ? :alert : false}= @ticket.urgency_line
+          %span.label{class: @ticket.urgency_class}= @ticket.urgency_line
         
       .ticket_text
         = simple_format(@ticket.description)
