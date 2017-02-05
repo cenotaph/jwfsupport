@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170130164649) do
+ActiveRecord::Schema.define(version: 20170205165021) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20170130164649) do
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
     t.boolean  "is_system",               default: false, null: false
+    t.string   "commit_hash"
     t.index ["ticket_id"], name: "index_comments_on_ticket_id", using: :btree
     t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
   end
@@ -58,6 +59,8 @@ ActiveRecord::Schema.define(version: 20170130164649) do
     t.text     "description"
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
+    t.string   "github_user"
+    t.string   "github_repo"
   end
 
   create_table "projects_users", id: false, force: :cascade do |t|

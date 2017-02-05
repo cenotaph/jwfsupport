@@ -53,6 +53,6 @@ class Admin::ProjectsController < Admin::BaseController
 
     # Only allow a trusted parameter "white list" through.
     def project_params
-      params.require(:project).permit(:name, :url, :active, :icon, :description)
+      params.require(:project).permit(:name, :url, :active, :icon, :github_user, :github_repo, :description)
     end
 end

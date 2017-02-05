@@ -36,7 +36,7 @@ class CommentsController < ApplicationController
   protected
   
   def comment_params
-    params.require(:comment).permit(:ticket_id, :user_id, :content, :description, :attachment, :image)
+    params.require(:comment).permit(:ticket_id, :user_id, :content, :description, :attachment, :screenshot, :commit_hash)
   end
   
 end

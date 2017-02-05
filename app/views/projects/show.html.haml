@@ -1,7 +1,14 @@
 .row
-  .small-12.columns
+  .small-6.medium-2.columns
+    - if @project.icon?
+      - if @project.github_repo.blank?
+        = image_tag @project.icon.url
+      - else
+        = link_to image_tag(@project.icon.url), "https://github.com/#{@project.github_user}/#{@project.github_repo}", target: :_blank
+  .small-6.medium-10.columns
     %h3= @project.name
-
+.row
+  .small-12.columns
     = pluralize(@project.tickets.opened.size.to_s, 'open ticket')
     out of 
     = @project.tickets.all.size.to_s

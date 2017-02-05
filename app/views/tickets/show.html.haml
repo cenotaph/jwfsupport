@@ -72,6 +72,12 @@
                         %p= image_tag comment.screenshot.url
                       - if comment.attachment?
                         %p= link_to 'Download attachment', comment.attachment.url, class: [:button, :secondary, :small]
+                    - unless comment.commit_hash.blank?
+                      .comment_hash
+                        %strong
+                          %em
+                            Fixed in commit
+                            = link_to comment.commit_hash,  "https://github.com/#{@ticket.project.github_user}/#{@ticket.project.github_repo}/commit/#{comment.commit_hash}", target: :blank
 #comment_index
   .row
     .small-12.medium-8.columns.end
@@ -83,12 +89,31 @@
         .small-10.columns
           %h3 Comment
 
-          = semantic_form_for [ @ticket,  @comment = @ticket.comments.build(user: current_user)], html: { multipart: true, :"data-abide" => '' } do |f|
-            = f.input :user_id, as: :hidden, input_html: {value: current_user.id}
-            = f.input :description, :label => false, input_html: {:required => '', id: :comment_input_textarea}
-            = f.input :screenshot,  label: 'Attach image/screenshot to comment?'
-            = f.input :attachment, :label => 'Attach PDF or other file to comment?'
-            = f.input :send_email, as: :boolean,  label: 'Send an email notifiying that this comment was posted to ticket owner'
+          -#= semantic_form_for [ @ticket,  @comment = @ticket.comments.build(user: current_user)], html: { multipart: true, :"data-abide" => '' } do |f|
+          = semantic_form_for @ticket, html: { multipart: true, :"data-abide" => '' } do |f|
+            = f.fields_for :comments,  @ticket.comments.build(user: current_user) do |ff|
+
+              = ff.input :user_id, as: :hidden, input_html: {value: current_user.id}
+              = ff.input :description, :label => false, input_html: {:required => '', id: :comment_input_textarea}
+              = ff.input :screenshot,  label: 'Attach image/screenshot to comment?'
+              = ff.input :attachment, :label => 'Attach PDF or other file to comment?'
+              - unless @ticket.project.github_repo.blank?
+                = ff.input :commit_hash, label: 'GitHub commit hash', hint: 'optional!'
+            .row
+              .small-12.columns Change status with this comment:
+            .small-10.medium-4.columns
+              %span Urgency:
+              = f.input :urgency, label: false, as: :select,  collection: [["not a big deal, but would be nice to get this done", 0 ], ["would really love this to happen soon", 1], ["this is really, really important", 2], ["HOLY SHIT DROP EVERYTHING IN YOUR LIFE AND FIX THIS NOW!!!!", 3]], include_blank: false
+            .small-10.medium-4.columns
+              %span Status:
+              = f.input :status, as: :select, collection: [['new', 0], ['accepted', 1], ['closed', 2], ['reopened', 3], ['awaiting feedback', 4]], include_blank: false, label: false
+            .small-10.medium-4.columns
+              %span Resolution:
+              = f.input :resolution, as: :select, collection: [['open', 0], ['resolved', 1], ['invalid', 2], ['not applicable', 3], ['duplicate', 4]], include_blank: false,label: false  
+            .small-12.columns
+              = f.input :system_call, as: :hidden, input_html: {value: 1}
+              = f.input :send_email, as: :boolean, label: 'notify ticketholder of changes via email'              
+              -#= ff.input :send_email, as: :boolean,  label: 'Send an email notifiying that this comment was posted to ticket owner'
             = f.submit 'Save', :class => [:button, :round]
     
   

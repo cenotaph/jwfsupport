@@ -48,22 +48,32 @@ class TicketsController < ApplicationController
   # PATCH/PUT /tickets/1
   def update
 
-    if @ticket.update(ticket_params)
+    if @ticket.update_attributes(ticket_params)
+      comment_text = []
 
-      if params[:ticket][:system_call] == "1"
-        comment_text = []
-  
-        if @ticket.previous_changes.keys.include?("status")
-          comment_text << 'status: ' + @ticket.status_line 
-        end
-        if @ticket.previous_changes.keys.include?("urgency")
-          comment_text << 'urgency: ' + @ticket.urgency_line
-        end
-        if @ticket.previous_changes.keys.include?("resolution")
-          comment_text << 'resolution: ' + @ticket.resolution_line
-        end
+      if @ticket.previous_changes.keys.include?("status")
+        comment_text << 'status: ' + @ticket.status_line 
+      end
+      if @ticket.previous_changes.keys.include?("urgency")
+        comment_text << 'urgency: ' + @ticket.urgency_line
+      end
+      if @ticket.previous_changes.keys.include?("resolution")
+        comment_text << 'resolution: ' + @ticket.resolution_line
+      end
+      unless comment_text.blank?
+        if params[:ticket][:comments_attributes].nil?
+          @ticket.comments << Comment.create(is_system: true, user: current_user, 
+          description:  'Changes were made to this ticket: ' + 
+            (comment_text.blank? ? @ticket.previous_changes.to_a.flatten.join(' || ') : comment_text.join('; '))  
+            )
+        else
+          lc = @ticket.comments.last
+          lc.description += '<p><em>Changes were made to this ticket: ' + 
+            (comment_text.blank? ? @ticket.previous_changes.to_a.flatten.join(' || ') : comment_text.join('; '))  + "</em></p>"
+          lc.save!
 
-        Comment.create(ticket: @ticket, is_system: true, user: current_user, description: 'Changes were made to this ticket: ' + comment_text.join('; ')  )
+        end
+        
       end
       if params[:ticket][:send_email] == "1"
         TicketMailer.send_notification(@ticket).deliver_now
@@ -90,6 +100,7 @@ class TicketsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def ticket_params
       params.require(:ticket).permit(:tickettype_id, :project_id, :user_id, :name, :description, :urgency, :date_requested, :status, :relevant_url, :resolution,
+      comments_attributes: [:id, :ticket_id, :user_id, :content, :description, :attachment, :commit_hash, :screenshot],
       screenshots_attributes: [:id, :remove_screenshot, :_destroy, :image])
     end
 end
