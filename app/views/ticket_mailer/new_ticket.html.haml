@@ -1,0 +1,24 @@
+%p Hi!
+%p
+  A new ticket for the project
+  = "\"#{@ticket.project.name}\""
+  has been created by
+  = @ticket.user.name
+    
+%p 
+  Ticket info:
+  %br/
+  = @ticket.name
+
+%blockquote
+  = simple_format(@ticket.description)
+  
+  
+%p
+  The ticket has the urgency of:
+  = @ticket.urgency_line
+
+%p
+  To see further information on the issue, please visit the ticket via the 
+  = link_to 'online support system.', @ticket
+  
