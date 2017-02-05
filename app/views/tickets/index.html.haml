@@ -18,7 +18,7 @@
 
       %tbody
         - @tickets.each do |ticket|
-          %tr{class: [ticket.status == 2 ? :strikeout : false, ticket.status_line.parameterize.underscore]}
+          %tr{class: [(ticket.status == 2 || ticket.resolution == 2) ? :strikeout : false, ticket.status_line.parameterize.underscore]}
             %td= link_to ticket.project.name, ticket.project
             %td= ticket.id.to_s
             %td= link_to ticket.name, ticket
@@ -27,8 +27,8 @@
             %td= ticket.resolution_line
             %td
               = link_to 'Show', ticket, class: [:button, :tiny]
-              - if can? :edit, ticket
-                = link_to 'Edit', edit_ticket_path(ticket), class: [:button, :tiny]
+              - if current_user.has_role?(:admin)                
+                = link_to 'Edit', edit_ticket_path(ticket), class: [:button, :tiny , :warning]
 
     %br
 

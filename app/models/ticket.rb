@@ -72,10 +72,12 @@ class Ticket < ApplicationRecord
     case resolution
     when nil
       return 'warning'
+    when 0
+      return 'warning'
     when 1
       return 'success'
     when 2
-      return 'alert'
+      return 'secondary'
     when 3
       return 'secondary'
     when 4
