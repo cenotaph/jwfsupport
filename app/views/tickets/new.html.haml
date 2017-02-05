@@ -1,5 +1,25 @@
-%h1 New ticket
+.row
+  .small-12.columns
+    %h1 New ticket
+.row
+  .small-6.columns
+    = image_tag User.find(1).avatar.url
+  .small-6.columns
+    %p
+      Hi! Welcome to the John W. Fail helpdesk.
+    %p
+      This system was created to attempt to manage the numerous fixes and help needed for the various projects (paid, volunteer or otherwise) I've been involved with over the years.
+    %p
+      Please describe your issue clearly and carefully. ("It doesn't work" is usually not enough information.) Tell me what your process was, and give me information that can help me to reproduce the problem. A clear description now will save us a lot of time in the long-run.
+    %p
+      I'll do my best to resolve your issue as soon as possible. Please be aware there are currently
+      = pluralize(Ticket.opened.size, 'open ticket')
+      in the system, as I support many projects beyond yours.
+      
+    %p Thank you for using this system and for helping me to manage my commitments.
+    
+.row
+  .small-12.columns
+    = render 'form'
 
-= render 'form'
-
-= link_to 'Back', tickets_path
+    = link_to 'Back', tickets_path

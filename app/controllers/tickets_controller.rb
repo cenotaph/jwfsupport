@@ -9,6 +9,7 @@ class TicketsController < ApplicationController
     else
       @tickets = current_user.projects.map(&:tickets).flatten.sort_by(&:created_at).reverse
     end
+    @progress = (Ticket.closed.size.to_f / Ticket.all.size.to_f).to_f * 100
   end
 
 

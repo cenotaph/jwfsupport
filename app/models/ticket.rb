@@ -8,6 +8,8 @@ class Ticket < ApplicationRecord
   attr_accessor :send_email, :system_call
   accepts_nested_attributes_for :screenshots, :reject_if => proc {|attributes| attributes['image'].blank? && attributes['image_cache'].blank?}, :allow_destroy => true
   
+  scope :closed,  ->() { where(status: 2) }
+  scope :opened, ->() { where("status is null or status <> 2")}
   def urgency_class
     case urgency 
     when 0
