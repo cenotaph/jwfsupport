@@ -1,12 +1,12 @@
 .row
-  .small-6.medium-2.columns
-    - if @project.icon?
-      - if @project.github_repo.blank?
-        = image_tag @project.icon.url
-      - else
-        = link_to image_tag(@project.icon.url), "https://github.com/#{@project.github_user}/#{@project.github_repo}", target: :_blank
-  .small-6.medium-10.columns
-    %h3= @project.name
+  .small-12.columns
+    %h3
+      - if @project.icon?
+        - if @project.github_repo.blank?
+          %span.left= image_tag @project.icon.url(:thumb)
+        - else
+          %span.left= link_to image_tag(@project.icon.url), "https://github.com/#{@project.github_user}/#{@project.github_repo}", target: :_blank
+      = @project.name
 .row
   .small-12.columns
     = pluralize(@project.tickets.opened.size.to_s, 'open ticket')

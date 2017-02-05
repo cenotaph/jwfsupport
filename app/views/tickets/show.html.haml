@@ -2,7 +2,7 @@
   .small-12.columns
     %h1
       - if @ticket.project.icon?
-        %span.right= image_tag @ticket.project.icon.url
+        %span.left= image_tag @ticket.project.icon.url(:thumb)
       = @ticket.project.name
 
     
