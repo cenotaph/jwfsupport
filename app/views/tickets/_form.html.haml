@@ -7,7 +7,7 @@
           %li= msg
   .row
     .small-10.medium-6.columns
-      = f.input :project, as: :select, collection: current_user.projects, member_label: Proc.new {|x| "#{x.name} / #{x.url}"}, include_blank: false
+      = f.input :project, as: :select, collection: current_user.has_role?(:admin) ? Project.all : current_user.projects, member_label: Proc.new {|x| "#{x.name} / #{x.url}"}, include_blank: false
   .row
     .small-10.medium-6.columns= f.input :tickettype, as: :select, include_blank: false
   .row
