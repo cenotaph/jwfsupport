@@ -1,6 +1,9 @@
 .row
   .small-12.columns
-    %h1= @ticket.project.name
+    %h1
+      - if @ticket.project.icon?
+        %span.right= image_tag @ticket.project.icon.url
+      = @ticket.project.name
 
     
 .row
