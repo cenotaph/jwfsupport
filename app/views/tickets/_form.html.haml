@@ -7,7 +7,7 @@
           %li= msg
   .row
     .small-10.medium-6.columns
-      = f.input :project, as: :select, collection: current_user.has_role?(:admin) ? Project.all : current_user.projects, member_label: Proc.new {|x| "#{x.name} / #{x.url}"}, include_blank: false
+      = f.input :project, as: :select, collection: current_user.has_role?(:admin) ? Project.all.order(:name) : current_user.projects.order(:name), member_label: Proc.new {|x| "#{x.name} / #{x.url}"}, include_blank: false
   .row
     .small-10.medium-6.columns= f.input :tickettype, as: :select, include_blank: false
   .row
@@ -33,6 +33,9 @@
       = f.fields_for :screenshots do |ss|
         = ss.input :image 
       = f.link_to_add 'add a screenshot', :screenshots, class: [:button, :secondary, :tiny]
+  .row
+    .small-10.medium-6.columns
+      = f.input :assigned, as: :select, collection: [['John W. Fail', 1]], label: 'Assign this ticket/task to:', include_blank: false
   - unless @ticket.new_record?
     .row
       .small-10.medium-4.columns
@@ -47,3 +50,28 @@
 = content_for :jquery do  
   :plain
     $('.date_picker').fdatepicker({ format: 'dd-mm-yyyy '});
+    $('#ticket_project_id').change(function() {
+      $("#ticket_assigned_id").html(new Option('John W. Fail', 1));
+      $.ajax({
+         url: "/projects/" + $(this).val() + "/users",
+         type: 'GET',
+         async: true,
+         dataType: "json",
+         error: function(XMLHttpRequest, errorTextStatus, error){
+                    alert("Failed: "+ errorTextStatus+" ;"+error);
+                },
+         success: function(data){
+            // here we iterate the json result
+            //alert('data is ' + data[1].name);
+           
+            for(var i in data)
+            {
+              var id = data[i].id;
+              var title = data[i].name;
+     
+              $("#ticket_assigned_id").append(new Option(title, id));
+          }        
+
+         }
+      });
+    });

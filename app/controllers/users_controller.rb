@@ -10,6 +10,12 @@ class UsersController < ApplicationController
 
   end
   
+  def index
+    @project = Project.find(params[:project_id])
+    @users = @project.users.order(:name)
+    render json: @users
+  end
+  
   def update
     @user = User.friendly.find(params[:id])
     if can? :update, @user

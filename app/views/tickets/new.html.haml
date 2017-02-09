@@ -2,9 +2,9 @@
   .small-12.columns
     %h1 New ticket
 .row
-  .small-6.columns
-    = image_tag User.find(1).avatar.url
-  .small-6.columns
+  .medium-6.columns.small-12
+    = image_tag User.find(1).avatar.url(:box)
+  .medium-6.columns.small-12
     %p
       Hi! Welcome to the John W. Fail helpdesk.
     %p

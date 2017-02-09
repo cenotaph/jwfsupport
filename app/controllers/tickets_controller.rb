@@ -60,6 +60,10 @@ class TicketsController < ApplicationController
       if @ticket.previous_changes.keys.include?("resolution")
         comment_text << 'resolution: ' + @ticket.resolution_line
       end
+
+      if @ticket.previous_changes.keys.include?("assigned_id")
+        comment_text << '<br />Assigned to: ' + @ticket.assigned.name
+      end
       unless comment_text.blank?
         if params[:ticket][:comments_attributes].nil?
           @ticket.comments << Comment.create(is_system: true, user: current_user, 
@@ -99,7 +103,7 @@ class TicketsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def ticket_params
-      params.require(:ticket).permit(:tickettype_id, :project_id, :user_id, :name, :description, :urgency, :date_requested, :status, :relevant_url, :resolution,
+      params.require(:ticket).permit(:tickettype_id, :project_id, :user_id, :name, :assigned_id,  :description, :urgency, :date_requested, :status, :relevant_url, :resolution,
       comments_attributes: [:id, :ticket_id, :user_id, :content, :description, :attachment, :commit_hash, :screenshot],
       screenshots_attributes: [:id, :remove_screenshot, :_destroy, :image])
     end

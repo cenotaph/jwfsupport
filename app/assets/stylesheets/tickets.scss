@@ -87,6 +87,20 @@ label.label {
   }
 }
 
+.assigned {
+  &.my_ticket {
+    font-weight: bold;
+    a {
+      color: green;
+    }
+  }
+  .date {
+    float: right;
+    color: #777;
+  }
+}
+
+
 .comments_index {
   .comment.row {
     padding-top: 1rem;

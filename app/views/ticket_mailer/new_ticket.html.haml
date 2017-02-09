@@ -1,9 +1,10 @@
 %p Hi!
 %p
-  A new ticket for the project
-  = "\"#{@ticket.project.name}\""
-  has been created by
-  = @ticket.user.name
+  A ticket for the project
+  = "\"#{@ticket.project.name}\", "
+  created by
+  = @ticket.user.name + ", "
+  has been assigned to you.
     
 %p 
   Ticket info:

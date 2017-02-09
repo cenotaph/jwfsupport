@@ -31,6 +31,9 @@
           submitted by
           = @ticket.user.name
         %span.date=  @ticket.created_at.strftime('%d %B %Y %H:%M')
+      .assigned{class: @ticket.assigned == current_user ? :my_ticket : false}
+        assigned to
+        = @ticket.assigned.name
 - if @ticket.project.users.include?(current_user) || current_user.has_role?(:admin)
   .row
     .small-10.medium-9.columns#quick_edit
@@ -113,11 +116,13 @@
             .small-10.medium-4.columns
               %span Resolution:
               = f.input :resolution, as: :select, collection: [['open', 0], ['resolved', 1], ['invalid', 2], ['not applicable', 3], ['duplicate', 4]], include_blank: false,label: false  
+            .small-12.medium-5.columns
+              = f.input :assigned, as: :select, collection: [@ticket.project.users.order(:name), User.first].flatten, include_blank: false, label: 'Re-assign ticket to:', hint: 'Will notify that person via email'
             .small-12.columns
               = f.input :system_call, as: :hidden, input_html: {value: 1}
               = f.input :send_email, as: :boolean, label: 'notify ticketholder of changes via email'              
               -#= ff.input :send_email, as: :boolean,  label: 'Send an email notifiying that this comment was posted to ticket owner'
-            = f.submit 'Save', :class => [:button, :round]
+            .small-12.columns= f.submit 'Save', :class => [:button, :round]
     
   
 - if can? :edit, @ticket

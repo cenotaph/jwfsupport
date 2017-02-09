@@ -8,7 +8,7 @@ class TicketMailer < ActionMailer::Base
   
   def new_ticket(ticket)
     @ticket = ticket
-     mail(from: @ticket.user.email, to: Figaro.env.mail_sender, subject: "New ticket: #{@ticket.name} [#{@ticket.project.name}]") 
+     mail(from: Figaro.env.mail_sender, to: Figaro.env.mail_sender, subject: "New ticket: #{@ticket.name} [#{@ticket.project.name}]") 
   end
 
 

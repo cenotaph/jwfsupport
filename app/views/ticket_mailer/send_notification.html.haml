@@ -1,9 +1,12 @@
 %p Hi!
 %p
-  Your ticket
+  The ticket
   = "\"#{@ticket.name}\""
   has been updated.
-  
+
+%p
+  The ticket is assigned to:
+  = @ticket.assigned.name
 %p 
   The ticket is currently marked as:
   = @ticket.resolution_line
