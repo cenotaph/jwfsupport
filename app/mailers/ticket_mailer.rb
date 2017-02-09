@@ -1,9 +1,12 @@
 class TicketMailer < ActionMailer::Base
   default from: Figaro.env.mail_sender
   
-  def send_notification(ticket)
+  def send_notification(ticket, recipient = nil)
     @ticket = ticket
-    mail(to: @ticket.user.email,  subject: "Ticket: #{@ticket.name} has been updated!") 
+    if recipient.nil?
+      recipient = @ticket.user.email
+    end
+    mail(to: recipient,  subject: "Ticket: #{@ticket.name} has been updated!") 
   end
   
   def new_ticket(ticket)

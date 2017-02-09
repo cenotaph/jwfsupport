@@ -66,6 +66,7 @@ class TicketsController < ApplicationController
 
       if @ticket.previous_changes.keys.include?("assigned_id")
         comment_text << '<br />Assigned to: ' + @ticket.assigned.name
+        TicketMailer.send_notification(@ticket, @ticket.assigned.email).deliver_now
       end
       unless comment_text.blank?
         if params[:ticket][:comments_attributes].nil?

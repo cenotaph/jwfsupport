@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   match '/users/auth/:provider/callback' => 'authentications#create', :via => :get
 
   authenticated :user do
-    root to: 'tickets#index', opened: "true", as: :authenticated_root
+    root to: 'tickets#index', opened: "truet", as: :authenticated_root
   end
   root to: 'tickets#landing'
   
