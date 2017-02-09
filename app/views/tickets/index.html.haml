@@ -11,6 +11,16 @@
       .progress-meter{style: "width: #{@progress}%"}
       
     = link_to 'Create new ticket', new_ticket_path, class: [:button]      
+.row
+  .small-6.medium-2.columns
+    - if params[:opened] == 'true'
+      = link_to 'Show all tickets', '/tickets', class: [:button, :small, :secondary]   
+    - else
+      = link_to 'Only open tickets', '/tickets?opened=true', class: [:button, :small, :secondary]   
+  .small-6.medium-2.columns.end
+    = link_to 'Closed tickets', '/tickets?closed=true', class: [:button, :small, :secondary]   
+.row
+  .small-12.columns    
     %table
       %thead
         %tr

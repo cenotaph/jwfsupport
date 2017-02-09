@@ -11,7 +11,7 @@ class Ticket < ApplicationRecord
   accepts_nested_attributes_for :comments, reject_if: proc {|atr| atr['description'].blank? }
   scope :closed,  ->() { where(status: 2) }
   scope :opened, ->() { where("status is null or status <> 2")}
-  
+  # scope :opened, -> () { where(["resolution <> 2"]) }
   def urgency_class
     case urgency 
     when 0
