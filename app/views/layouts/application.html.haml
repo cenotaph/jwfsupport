@@ -20,7 +20,7 @@
           .top-bar-left
             %ul.dropdown.menu{:'data-dropdown-menu' => ''}
               %li.menu-text John W. Fail's support desk
-              %li= link_to 'My tickets', {controller: :tickets, action: :index, opened: true}
+              %li= link_to 'My tickets', {controller: '/tickets', action: :index, opened: true}
               %li
                 = link_to 'My projects', '#'
                 %ul.menu
