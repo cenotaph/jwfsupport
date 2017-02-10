@@ -74,7 +74,11 @@ class TicketsController < ApplicationController
 
       if @ticket.previous_changes.keys.include?("assigned_id")
         comment_text << '<br />Assigned to: ' + @ticket.assigned.name
-        TicketMailer.send_notification(@ticket, @ticket.assigned.email).deliver_now
+        if params[:ticket][:comments_attributes].nil?
+          TicketMailer.send_notification(@ticket, @ticket.assigned.email).deliver_now
+        else
+          CommentMailer.new_comment(@ticket.comments.last).deliver_now
+        end
       end
       unless comment_text.blank?
         if params[:ticket][:comments_attributes].nil?
@@ -92,7 +96,19 @@ class TicketsController < ApplicationController
         
       end
       if params[:ticket][:send_email] == "1"
-        TicketMailer.send_notification(@ticket).deliver_now
+        if params[:ticket][:comments_attributes].nil?
+          TicketMailer.send_notification(@ticket).deliver_now
+        else
+          CommentMailer.new_comment(@ticket.comments.last).deliver_now
+        end
+      end
+      unless params[:ticket][:notification_ids].empty?
+        params[:ticket][:notification_ids].each do |n|
+          next if n.blank?
+          user = User.find(n)
+          next if @ticket.previous_changes.keys.include?("assigned_id") && n == @ticket.assigned
+          CommentMailer.new_comment(@ticket.comments.last, user.email).deliver_now
+        end
       end
       redirect_to @ticket, notice: 'Ticket was successfully updated.'
       
@@ -117,6 +133,7 @@ class TicketsController < ApplicationController
     def ticket_params
       params.require(:ticket).permit(:tickettype_id, :project_id, :user_id, :name, :assigned_id,  :description, :urgency, :date_requested, :status, :relevant_url, :resolution,
       comments_attributes: [:id, :ticket_id, :user_id, :content, :description, :attachment, :commit_hash, :screenshot],
-      screenshots_attributes: [:id, :remove_screenshot, :_destroy, :image])
+      screenshots_attributes: [:id, :remove_screenshot, :_destroy, :image],
+      notification_ids: [])
     end
 end

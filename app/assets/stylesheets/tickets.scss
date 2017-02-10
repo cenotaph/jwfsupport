@@ -7,6 +7,14 @@ form  {
       margin-top: -0.6em;
     }
   }
+  legend.label {
+    background-color: transparent;
+    color: #333;
+    padding: 0.3em 0 0.12em 0;
+    font-size: 1.2em;
+    white-space: initial;
+    border-bottom: 1px solid #1779ba;
+  }
 }
 
 label.label {

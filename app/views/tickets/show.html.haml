@@ -50,19 +50,26 @@
         = @ticket.assigned.name
 - if @ticket.project.users.include?(current_user) || current_user.has_role?(:admin)
   .row
-    .small-10.medium-9.columns#quick_edit
+    .small-10.medium-12.large-10.columns#quick_edit
       .callout.warning
+        %h4 Change ticket status without commenting
+        %p
+          %small If you would like to change these statuses AND leave a comment at the same time, do so at the bottom of this page.
         = semantic_form_for @ticket do |f|
           .row
-            .small-10.medium-4.columns
+            .small-10.medium-6.large-3.columns
               %span Urgency:
               = f.input :urgency, label: false, as: :select,  collection: [["not a big deal, but would be nice to get this done", 0 ], ["would really love this to happen soon", 1], ["this is really, really important", 2], ["HOLY SHIT DROP EVERYTHING IN YOUR LIFE AND FIX THIS NOW!!!!", 3]], include_blank: false
-            .small-10.medium-4.columns
+            .small-10.medium-6.large-3.columns
               %span Status:
               = f.input :status, as: :select, collection: [['new', 0], ['accepted', 1], ['closed', 2], ['reopened', 3], ['awaiting feedback', 4]], include_blank: false, label: false
-            .small-10.medium-4.columns
+            .small-10.medium-6.large-3.columns
               %span Resolution:
               = f.input :resolution, as: :select, collection: [['open', 0], ['resolved', 1], ['invalid', 2], ['not applicable', 3], ['duplicate', 4]], include_blank: false,label: false  
+            .small-10.medium-6.large-3.columns
+              %span Re-assign to:
+              = f.input :assigned, as: :select, collection: [@ticket.project.users.order(:name), User.first].flatten, include_blank: false, label: false
+              
             .small-12.columns
               = f.input :system_call, as: :hidden, input_html: {value: 1}
               = f.input :send_email, as: :boolean, label: 'notify ticketholder of changes via email'
@@ -131,10 +138,12 @@
               %span Resolution:
               = f.input :resolution, as: :select, collection: [['open', 0], ['resolved', 1], ['invalid', 2], ['not applicable', 3], ['duplicate', 4]], include_blank: false,label: false  
             .small-12.medium-5.columns
-              = f.input :assigned, as: :select, collection: [@ticket.project.users.order(:name), User.first].flatten, include_blank: false, label: 'Re-assign ticket to:', hint: 'Will notify that person via email'
+              = f.input :assigned, as: :select, collection: [@ticket.project.users.order(:name), User.first].flatten, include_blank: false, label: 'Re-assign ticket to:', hint: 'Re-assigning a ticket will notify that person, via email'
             .small-12.columns
               = f.input :system_call, as: :hidden, input_html: {value: 1}
-              = f.input :send_email, as: :boolean, label: 'notify ticketholder of changes via email'              
+              = f.input :send_email, as: :boolean, label: "notify ticket creator (#{@ticket.user.name})  of this comment, via email"
+              - unless [@ticket.project.users, User.first].flatten.uniq.delete_if{|x| x == current_user}.delete_if{|y| y == @ticket.user}.empty?
+                = f.input :notification_ids, as: :check_boxes, collection: [@ticket.project.users, User.first].flatten.uniq.delete_if{|x| x == current_user}.delete_if{|y| y == @ticket.user}, label: 'Also send an email notification to:'
               -#= ff.input :send_email, as: :boolean,  label: 'Send an email notifiying that this comment was posted to ticket owner'
             .small-12.columns= f.submit 'Save', :class => [:button, :round]
     
