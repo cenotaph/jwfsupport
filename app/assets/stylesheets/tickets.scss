@@ -157,6 +157,16 @@ h1.ticket_header {
   }
 }
 
+.project_heading {
+  h3 {
+    img {
+       padding: 10px 20px 20px 0;
+      max-width: 150px;
+      height: auto;
+    }
+  }
+}
+
 .ticket_heading {
   .float-left {
     img {

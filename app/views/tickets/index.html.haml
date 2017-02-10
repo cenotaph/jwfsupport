@@ -41,7 +41,7 @@
             %td= link_to ticket.project.name, {controller: :projects, action: :show, id: ticket.project, opened: true}
             %td= ticket.id.to_s
             %td= link_to ticket.name, ticket
-            %td= l ticket.date_requested, format: :short
+            %td= l(ticket.date_requested, format: :short) unless ticket.date_requested.blank?
             %td= ticket.assigned.name
             
             %td= ticket.status_line
