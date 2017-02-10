@@ -149,3 +149,21 @@ h3 {
     color:#333;
   }
 }
+
+h1.ticket_header {
+  margin-bottom: 0;
+  a {
+    color: #333;
+  }
+}
+
+.ticket_heading {
+  .float-left {
+    img {
+      padding: 10px 20px 20px 0;
+    }
+  }
+  a.github {
+    margin-top: 12px;
+  }
+}

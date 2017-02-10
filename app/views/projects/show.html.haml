@@ -7,6 +7,8 @@
         - else
           %span.left= link_to image_tag(@project.icon.url), "https://github.com/#{@project.github_user}/#{@project.github_repo}", target: :_blank
       = @project.name
+      - unless @project.github_repo.blank?
+        = link_to fa_icon('github') + " View on GitHub", "https://github.com/#{@project.github_user}/#{@project.github_repo}", target: :_blank, class: [:button, :tiny, :hollow, :github]
 .row
   .small-12.columns
     = pluralize(@project.tickets.opened.size.to_s, 'open ticket')
@@ -21,9 +23,9 @@
   .small-12.columns
     .expanded.button-group
 
-      = link_to 'Open tickets', "/projects/#{@project.slug}?opened=true", class: [:secondary, :button, params[:opened] =="true" ? :success : :hollow]
-      = link_to 'Closed tickets', "/projects/#{@project.slug}?closed=true",  class: [:secondary, :button, params[:closed] =="true" ? :success : :hollow]
-      = link_to 'All tickets', @project, class: [:secondary, :button, params[:opened].blank? && params[:closed].nil? ? :success : :hollow] 
+      = link_to "Open tickets (#{@opened_count})", "/projects/#{@project.slug}?opened=true", class: [:secondary, :button, params[:opened] =="true" ? :success : :hollow]
+      = link_to "Closed tickets (#{@closed_count})", "/projects/#{@project.slug}?closed=true",  class: [:secondary, :button, params[:closed] =="true" ? :success : :hollow]
+      = link_to "All tickets (#{@total_count})", @project, class: [:secondary, :button, params[:opened].blank? && params[:closed].nil? ? :success : :hollow] 
 .row
   .small-12.columns
 

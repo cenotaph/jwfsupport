@@ -1,11 +1,24 @@
-.row
+.row.ticket_heading
   .small-12.columns
-    %h1
-      - if @ticket.project.icon?
-        %span.left= image_tag @ticket.project.icon.url(:thumb)
-      = link_to @ticket.project.name, @ticket.project
-    
+    - if @ticket.project.icon?
+      .float-left= image_tag @ticket.project.icon.url(:thumb).gsub(/development/, 'production')
+    %h1.ticket_header
 
+      = link_to @ticket.project.name, {controller: :projects, action: :show, id: @ticket.project, opened: true}
+
+    .row
+      .small-10.medium-2.columns
+        - unless @ticket.project.github_repo.blank?
+          = link_to fa_icon('github') + " View on GitHub", "https://github.com/#{@ticket.project.github_user}/#{@ticket.project.github_repo}", target: :_blank, class: [:button, :tiny, :hollow, :github]
+      .small-10.medium-8.columns.end
+        %small
+          = pluralize(@ticket.project.tickets.opened.size.to_s, 'open ticket')
+          out of
+          = @ticket.project.tickets.size.to_s
+          total
+        .progress{role: :progressbar, tabindex: 0, :'aria-valuenow' => @progress_project.to_s, class: (@progress_project <= 10 ? :alert : (@progress_project <= 45) ? :warning : (@progress_project <= 75 ? :secondary : (@progress_project <= 90 ? :primary : :success)))}
+          
+          .progress-meter{style: "width: #{@progress_project}%"}
     
 .row
   .small-12.columns

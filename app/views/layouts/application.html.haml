@@ -20,16 +20,16 @@
           .top-bar-left
             %ul.dropdown.menu{:'data-dropdown-menu' => ''}
               %li.menu-text John W. Fail's support desk
-              %li= link_to 'My tickets', tickets_path
+              %li= link_to 'My tickets', {controller: :tickets, action: :index, opened: true}
               %li
                 = link_to 'My projects', '#'
                 %ul.menu
                   - if current_user.has_role?(:admin)
                     - Project.all.order(:name).each do |p|
-                      %li= link_to p.name, p
+                      %li= link_to p.name, {controller: :projects, action: :show, id: p, opened: :true}
                   - else
                     - current_user.projects.each do |p|
-                      %li= link_to p.name, p
+                      %li= link_to p.name, {controller: :projects, action: :show, id: p, opened: :true}
               %li= link_to 'Create new ticket', new_ticket_path
               
               %li= link_to 'Edit profile', edit_user_path(current_user)

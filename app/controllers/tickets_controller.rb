@@ -9,11 +9,17 @@ class TicketsController < ApplicationController
 
     if current_user.has_role? :admin
       @tickets = apply_scopes(Ticket).all.order(created_at: :desc)
-
+      @opened_count = Ticket.opened.size
+      @closed_count = Ticket.closed.size
+      @total_count = Ticket.all.size
     else
-      @tickets = apply_scopes(Ticket.includes(:project => :users).where('projects_users.user_id'  => current_user.id )).all #.sort_by(&:created_at).reverse
+      @tickets = apply_scopes(Ticket.includes(:project => :users).where('projects_users.user_id'  => current_user.id )).all.sort_by(&:created_at).reverse
+      @opened_count = Ticket.includes(:project => :users).where('projects_users.user_id'  => current_user.id ).opened.size
+      @closed_count = Ticket.includes(:project => :users).where('projects_users.user_id'  => current_user.id ).closed.size
+      @total_count = Ticket.includes(:project => :users).where('projects_users.user_id'  => current_user.id ).size
     end
     @progress = (Ticket.closed.size.to_f / Ticket.all.size.to_f).to_f * 100
+
   end
 
 
@@ -22,6 +28,7 @@ class TicketsController < ApplicationController
   end
   # GET /tickets/1
   def show
+    @progress_project = (@ticket.project.tickets.closed.size.to_f / @ticket.project.tickets.size.to_f).to_f * 100
     unless @ticket.project.users.include?(current_user) || current_user.has_role?(:admin) 
       flash[:error] = 'You do not have permission to view this ticket.'
       redirect_to '/'

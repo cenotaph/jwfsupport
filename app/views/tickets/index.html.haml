@@ -16,9 +16,9 @@
   .small-12.columns
     .expanded.button-group
 
-      = link_to 'Open tickets', "/tickets?opened=true", class: [:secondary, :button, params[:opened] == "true" ? :success : :hollow]
-      = link_to 'Closed tickets', "/tickets?closed=true",  class: [:secondary, :button, params[:closed] == "true" ? :success : :hollow]
-      = link_to 'All tickets', "/tickets", class: [:secondary, :button, params[:opened].blank? && params[:closed].nil? ? :success : :hollow]     
+      = link_to "Open tickets (#{@opened_count.to_s})", "/tickets?opened=true", class: [:secondary, :button, params[:opened] == "true" ? :success : :hollow]
+      = link_to "Closed tickets (#{@closed_count.to_s})", "/tickets?closed=true",  class: [:secondary, :button, params[:closed] == "true" ? :success : :hollow]
+      = link_to "All tickets (#{@total_count.to_s})", "/tickets", class: [:secondary, :button, params[:opened].blank? && params[:closed].nil? ? :success : :hollow]     
 .row
   .small-12.columns    
     %table
@@ -27,7 +27,8 @@
           %th Project
           %th #
           %th Name
-          %th Date assigned
+          %th Date due
+          %th Assigned to
           %th Status
           %th Resolution
           %th
@@ -37,10 +38,12 @@
       %tbody
         - @tickets.each do |ticket|
           %tr{class: [(ticket.status == 2 || ticket.resolution == 2) ? :strikeout : false, ticket.status_line.parameterize.underscore]}
-            %td= link_to ticket.project.name, ticket.project
+            %td= link_to ticket.project.name, {controller: :projects, action: :show, id: ticket.project, opened: true}
             %td= ticket.id.to_s
             %td= link_to ticket.name, ticket
-            %td= ticket.date_requested
+            %td= l ticket.date_requested, format: :short
+            %td= ticket.assigned.name
+            
             %td= ticket.status_line
             %td= ticket.resolution_line
             %td
