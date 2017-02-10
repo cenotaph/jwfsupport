@@ -24,8 +24,12 @@
               %li
                 = link_to 'My projects', '#'
                 %ul.menu
-                  - current_user.projects.each do |p|
-                    %li= link_to p.name, p
+                  - if current_user.has_role?(:admin)
+                    - Project.all.order(:name).each do |p|
+                      %li= link_to p.name, p
+                  - else
+                    - current_user.projects.each do |p|
+                      %li= link_to p.name, p
               %li= link_to 'Create new ticket', new_ticket_path
               
               %li= link_to 'Edit profile', edit_user_path(current_user)
