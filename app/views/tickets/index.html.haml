@@ -11,14 +11,14 @@
       .progress-meter{style: "width: #{@progress}%"}
       
     = link_to 'Create new ticket', new_ticket_path, class: [:button]      
+
 .row
-  .small-6.medium-2.columns
-    - if params[:opened] == 'true'
-      = link_to 'Show all tickets', '/tickets', class: [:button, :small, :secondary]   
-    - else
-      = link_to 'Only open tickets', '/tickets?opened=true', class: [:button, :small, :secondary]   
-  .small-6.medium-2.columns.end
-    = link_to 'Closed tickets', '/tickets?closed=true', class: [:button, :small, :secondary]   
+  .small-12.columns
+    .expanded.button-group
+
+      = link_to 'Open tickets', "/tickets?opened=true", class: [:secondary, :button, params[:opened] == "true" ? :success : :hollow]
+      = link_to 'Closed tickets', "/tickets?closed=true",  class: [:secondary, :button, params[:closed] == "true" ? :success : :hollow]
+      = link_to 'All tickets', "/tickets", class: [:secondary, :button, params[:opened].blank? && params[:closed].nil? ? :success : :hollow]     
 .row
   .small-12.columns    
     %table

@@ -17,7 +17,13 @@
       .progress-meter{style: "width: #{@progress_project}%"}
       
     = link_to 'Create new ticket', new_ticket_path, class: [:button]    
-    
+.row
+  .small-12.columns
+    .expanded.button-group
+
+      = link_to 'Open tickets', "/projects/#{@project.slug}?opened=true", class: [:secondary, :button, params[:opened] =="true" ? :success : :hollow]
+      = link_to 'Closed tickets', "/projects/#{@project.slug}?closed=true",  class: [:secondary, :button, params[:closed] =="true" ? :success : :hollow]
+      = link_to 'All tickets', @project, class: [:secondary, :button, params[:opened].blank? && params[:closed].nil? ? :success : :hollow] 
 .row
   .small-12.columns
 
@@ -26,7 +32,8 @@
         %tr
           %th #
           %th Name
-          %th Date assigned
+          %th Date due
+          %th Assigned to
           %th Status
           %th Resolution
           %th
@@ -39,6 +46,7 @@
             %td= ticket.id.to_s
             %td= link_to ticket.name, ticket
             %td= ticket.date_requested
+            %td= ticket.assigned.name
             %td= ticket.status_line
             %td= ticket.resolution_line
             %td

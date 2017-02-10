@@ -6,11 +6,12 @@ class TicketsController < ApplicationController
   has_scope :opened, type: :boolean
   
   def index
+
     if current_user.has_role? :admin
       @tickets = apply_scopes(Ticket).all.order(created_at: :desc)
 
     else
-      @tickets = apply_scopes(current_user.projects.map(&:tickets)).flatten.sort_by(&:created_at).reverse
+      @tickets = apply_scopes(Ticket.includes(:project => :users).where('projects_users.user_id'  => current_user.id )).all #.sort_by(&:created_at).reverse
     end
     @progress = (Ticket.closed.size.to_f / Ticket.all.size.to_f).to_f * 100
   end
