@@ -48,8 +48,8 @@ class TicketsController < ApplicationController
   def create
     @ticket = Ticket.new(ticket_params)
 
-    if @ticket.save
-      TicketMailer.new_ticket(@ticket).deliver_now
+    if @ticket.save  
+      TicketMailer.new_ticket(@ticket, @ticket.assigned.email).deliver_now
       redirect_to @ticket, notice: 'Ticket was successfully created.'
     else
       render :new

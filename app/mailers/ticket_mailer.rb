@@ -9,9 +9,12 @@ class TicketMailer < ActionMailer::Base
     mail(to: recipient,  subject: "Ticket: #{@ticket.name} has been updated!") 
   end
   
-  def new_ticket(ticket)
+  def new_ticket(ticket, recipient = nil)
     @ticket = ticket
-     mail(from: Figaro.env.mail_sender, to: Figaro.env.mail_sender, subject: "New ticket: #{@ticket.name} [#{@ticket.project.name}]") 
+    if recipient.nil?
+      recipient = Figaro.env.mail_sender
+    end
+     mail(from: Figaro.env.mail_sender, to: recipient, subject: "New ticket: #{@ticket.name} [#{@ticket.project.name}]") 
   end
 
 
