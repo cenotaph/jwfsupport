@@ -97,7 +97,7 @@
                       %em= l comment.created_at, format: :long
                     .comment_content
                       - link_filter = AutoHtml::Link.new(target: '_blank')
-                      %p= raw simple_format(link_filter.call(comment.description), {}, sanitize: false)
+                      %p= raw find_tickets(simple_format(link_filter.call(comment.description), {}, sanitize: false))
                       -# %p= simple_format comment.description
                       - if comment.screenshot?
                         %p= link_to image_tag(comment.screenshot.url(:box)), '#', :"data-open" => "screenshot_#{comment.id.to_s}"
