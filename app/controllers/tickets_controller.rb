@@ -102,7 +102,7 @@ class TicketsController < ApplicationController
           CommentMailer.new_comment(@ticket.comments.last).deliver_now
         end
       end
-      unless params[:ticket][:notification_ids].empty?
+      unless params[:ticket][:notification_ids].to_a.empty?
         params[:ticket][:notification_ids].each do |n|
           next if n.blank?
           user = User.find(n)
