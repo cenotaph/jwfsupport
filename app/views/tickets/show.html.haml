@@ -96,7 +96,11 @@
                     .comment_content
                       %p= simple_format comment.description
                       - if comment.screenshot?
-                        %p= image_tag comment.screenshot.url
+                        %p= link_to image_tag(comment.screenshot.url(:box).gsub(/development/, 'production')), '#', :"data-open" => "screenshot_#{comment.id.to_s}"
+                        .reveal{id: "screenshot_#{comment.id.to_s}", :'data-reveal' => ''}
+                          = image_tag comment.screenshot.url.gsub(/development/, 'production')
+                          %button.close-button{:"aria-label" => "Close modal", :"data-close" => "", :type => "button"}
+                            %span{:"aria-hidden" => "true"} &times;
                       - if comment.attachment?
                         %p= link_to 'Download attachment', comment.attachment.url, class: [:button, :secondary, :small]
                     - unless comment.commit_hash.blank?
