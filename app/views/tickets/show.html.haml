@@ -94,7 +94,9 @@
                     %small.date
                       %em= l comment.created_at, format: :long
                     .comment_content
-                      %p= simple_format comment.description
+                      - link_filter = AutoHtml::Link.new(target: '_blank')
+                      %p= raw simple_format(link_filter.call(comment.description))
+                      -# %p= simple_format comment.description
                       - if comment.screenshot?
                         %p= link_to image_tag(comment.screenshot.url(:box)), '#', :"data-open" => "screenshot_#{comment.id.to_s}"
                         .reveal{id: "screenshot_#{comment.id.to_s}", :'data-reveal' => ''}
