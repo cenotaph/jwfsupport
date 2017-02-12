@@ -22,10 +22,16 @@
 .row
   .small-12.columns
     .expanded.button-group
+      - unless params[:mine].blank?
 
-      = link_to "Open tickets (#{@opened_count})", "/projects/#{@project.slug}?opened=true", class: [:secondary, :button, params[:opened] =="true" ? :success : :hollow]
-      = link_to "Closed tickets (#{@closed_count})", "/projects/#{@project.slug}?closed=true",  class: [:secondary, :button, params[:closed] =="true" ? :success : :hollow]
-      = link_to "All tickets (#{@total_count})", @project, class: [:secondary, :button, params[:opened].blank? && params[:closed].nil? ? :success : :hollow] 
+
+        - if params[:mine] != current_user.id.to_s
+          = link_to "#{User.find(params[:mine]).name}'s open tickets (#{@person_count.to_s})", "/projects/#{@project.slug}?mine=#{current_user.id.to_s}&opened=true", class: [:secondary, :button, params[:mine] != current_user.id.to_s  ? :success : :hollow ]
+
+      = link_to "My open tickets (#{@my_count.to_s})", "/projects/#{@project.slug}?mine=#{current_user.id.to_s}&opened=true", class: [:secondary, :button, params[:mine] != current_user.id.to_s  ? :hollow : :success ]    
+      = link_to "All open tickets (#{@opened_count.to_s})", "/projects/#{@project.slug}?opened=true", class: [:secondary, :button, params[:opened] == "true" && params[:mine].blank? ? :success : :hollow]
+      = link_to "Closed tickets (#{@closed_count.to_s})", "/projects/#{@project.slug}?closed=true",  class: [:secondary, :button, params[:closed] == "true" ? :success : :hollow]
+      = link_to "All tickets (#{@total_count.to_s})", "/projects/#{@project.slug}", class: [:secondary, :button, params[:opened].blank? && params[:closed].nil? && params[:mine].blank? ? :success : :hollow]    
 .row
   .small-12.columns
 
@@ -48,7 +54,7 @@
             %td= ticket.id.to_s
             %td= link_to ticket.name, ticket
             %td= ticket.date_requested
-            %td= ticket.assigned.name
+            %td= link_to ticket.assigned.name, "/projects/#{@project.slug}?mine=#{ticket.assigned_id.to_s}"
             %td= ticket.status_line
             %td= ticket.resolution_line
             %td

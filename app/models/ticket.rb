@@ -10,7 +10,9 @@ class Ticket < ApplicationRecord
   accepts_nested_attributes_for :screenshots, :reject_if => proc {|attributes| attributes['image'].blank? && attributes['image_cache'].blank?}, :allow_destroy => true
   accepts_nested_attributes_for :comments, reject_if: proc {|atr| atr['description'].blank? }
   scope :closed,  ->() { where(status: 2) }
-  scope :opened, ->() { where("status is null or status <> 2")}
+  scope :opened, ->() { where("((status is null or status <> 2) and (resolution is null or resolution = 0))")}
+  scope :mine, ->(x) { where(["((status is null or status <> 2) and (resolution is null or resolution = 0)) and assigned_id = ?", x]) }
+  
   # scope :opened, -> () { where(["resolution <> 2"]) }
   def urgency_class
     case urgency 

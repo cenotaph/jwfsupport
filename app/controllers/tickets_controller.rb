@@ -4,6 +4,7 @@ class TicketsController < ApplicationController
   
   has_scope :closed, type: :boolean
   has_scope :opened, type: :boolean
+  has_scope :mine
   
   def index
 
@@ -12,12 +13,16 @@ class TicketsController < ApplicationController
       @opened_count = Ticket.opened.size
       @closed_count = Ticket.closed.size
       @total_count = Ticket.all.size
+      
     else
       @tickets = apply_scopes(Ticket.includes(:project => :users).where('projects_users.user_id'  => current_user.id )).all.sort_by(&:created_at).reverse
       @opened_count = Ticket.includes(:project => :users).where('projects_users.user_id'  => current_user.id ).opened.size
       @closed_count = Ticket.includes(:project => :users).where('projects_users.user_id'  => current_user.id ).closed.size
       @total_count = Ticket.includes(:project => :users).where('projects_users.user_id'  => current_user.id ).size
+      @person_count = Ticket.mine(params[:mine]).size
     end
+    @person_count = Ticket.mine(params[:mine]).size
+    @my_count = Ticket.mine(current_user.id).size
     @progress = (Ticket.closed.size.to_f / Ticket.all.size.to_f).to_f * 100
 
   end

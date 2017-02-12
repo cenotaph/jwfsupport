@@ -2,7 +2,7 @@
   .small-12.columns
   
     %h3= link_to 'To be done...', 'http://dighist.fas.harvard.edu/courses/2016/HUM11c/exhibits/show/comparative-readings/nothing-to-be-done--a-comparat', target: :_blank
-    
+
     = pluralize(Ticket.opened.size.to_s, 'open ticket')
     out of 
     = Ticket.all.size.to_s
@@ -15,10 +15,16 @@
 .row
   .small-12.columns
     .expanded.button-group
+      - unless params[:mine].blank?
 
-      = link_to "Open tickets (#{@opened_count.to_s})", "/tickets?opened=true", class: [:secondary, :button, params[:opened] == "true" ? :success : :hollow]
+
+        - if params[:mine] != current_user.id.to_s
+          = link_to "#{User.find(params[:mine]).name}'s open tickets (#{@person_count.to_s})", "/tickets?mine=#{current_user.id.to_s}&opened=true", class: [:secondary, :button, params[:mine] != current_user.id.to_s  ? :success : :hollow ]
+
+      = link_to "My open tickets (#{@my_count.to_s})", "/tickets?mine=#{current_user.id.to_s}&opened=true", class: [:secondary, :button, params[:mine] != current_user.id.to_s  ? :hollow : :success ]    
+      = link_to "All open tickets (#{@opened_count.to_s})", "/tickets?opened=true", class: [:secondary, :button, params[:opened] == "true" && params[:mine].blank? ? :success : :hollow]
       = link_to "Closed tickets (#{@closed_count.to_s})", "/tickets?closed=true",  class: [:secondary, :button, params[:closed] == "true" ? :success : :hollow]
-      = link_to "All tickets (#{@total_count.to_s})", "/tickets", class: [:secondary, :button, params[:opened].blank? && params[:closed].nil? ? :success : :hollow]     
+      = link_to "All tickets (#{@total_count.to_s})", "/tickets", class: [:secondary, :button, params[:opened].blank? && params[:closed].nil? && params[:mine].blank? ? :success : :hollow]     
 .row
   .small-12.columns    
     %table
@@ -42,10 +48,14 @@
             %td= ticket.id.to_s
             %td= link_to ticket.name, ticket
             %td= l(ticket.date_requested, format: :short) unless ticket.date_requested.blank?
-            %td= ticket.assigned.name
+            %td= link_to ticket.assigned.name, "/tickets?mine=#{ticket.assigned_id.to_s}"
             
-            %td= ticket.status_line
-            %td= ticket.resolution_line
+            %td
+              = ticket.status_line
+
+            %td
+              = ticket.resolution_line
+ 
             %td
               = link_to 'Show', ticket, class: [:button, :tiny]
               - if current_user.has_role?(:admin)                
