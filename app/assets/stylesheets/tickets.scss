@@ -133,6 +133,10 @@ table {
 td {
     position: relative;
     padding: 5px 10px;
+    img.table_avatar {
+      height: 45px;
+      width: auto;
+    }
 }
 
 tr.waiting_for_feedback {

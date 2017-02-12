@@ -48,7 +48,10 @@
             %td= ticket.id.to_s
             %td= link_to ticket.name, ticket
             %td= l(ticket.date_requested, format: :short) unless ticket.date_requested.blank?
-            %td= link_to ticket.assigned.name, "/tickets?mine=#{ticket.assigned_id.to_s}"
+            %td
+              - if ticket.assigned.avatar?
+                = image_tag(ticket.assigned.avatar.url(:thumb).gsub(/development/, 'production'), class: :table_avatar)
+              = link_to ticket.assigned.name, "/tickets?mine=#{ticket.assigned_id.to_s}"
             
             %td
               = ticket.status_line
