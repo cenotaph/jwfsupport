@@ -66,7 +66,9 @@ class TicketsController < ApplicationController
 
     if @ticket.update_attributes(ticket_params)
       comment_text = []
-
+      if @ticket.previous_changes.keys.include?("name")
+        comment_text << 'name changed from "' + @ticket.previous_changes[:name].first.strip + '" to "' + @ticket.previous_changes[:name].last.strip + '"'
+      end
       if @ticket.previous_changes.keys.include?("status")
         comment_text << 'status: ' + @ticket.status_line 
       end
