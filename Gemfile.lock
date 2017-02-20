@@ -308,6 +308,8 @@ GEM
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
     tag_helper (0.5.0)
+    textacular (4.0.1)
+      activerecord (>= 3.0, < 5.1)
     thin (1.7.0)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0, >= 1.0.4)
@@ -382,6 +384,7 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   spring
   spring-watcher-listen (~> 2.0.0)
+  textacular
   thin
   truncate_html
   turbolinks (~> 5)

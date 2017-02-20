@@ -18,7 +18,7 @@ gem 'puma', group: :production
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'letter_opener'
+
   gem 'listen', '~> 3.0.5'
   gem 'ruby_parser', '>= 3.0.1'
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
@@ -54,6 +54,7 @@ gem 'omniauth-facebook'
 gem 'redis-rails', '~> 5.0.1'
 gem 'redis'
 gem 'rolify'
+gem 'textacular'
 gem 'truncate_html'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
