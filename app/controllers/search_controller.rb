@@ -4,7 +4,7 @@ class SearchController < ApplicationController
     @tickets = []
     @tickets += Ticket.advanced_search(params[:searchterm])
     @tickets += Comment.advanced_search(params[:searchterm]).map(&:ticket)
-    @tickets = @tickets.flatten.compact.sort_by(&:id).reverse
+    @tickets = @tickets.flatten.compact.uniq.sort_by(&:id).reverse
 
   end
 end
