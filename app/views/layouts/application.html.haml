@@ -33,6 +33,11 @@
               %li= link_to 'Create new ticket', new_ticket_path
               
               %li= link_to 'Edit profile', edit_user_path(current_user)
+          .top-bar-right
+            %ul.menu
+              = form_tag '/search' do 
+                %li= text_field_tag :searchterm, params[:searchterm], placeholder: 'Search'
+
       - if flash
         - flash.each do |key, value|
           .alert.callout{:'data-closeable' => ''}

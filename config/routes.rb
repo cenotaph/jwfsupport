@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   
   resources :users
 
+  post '/search', to: 'search#create'
   resources :tickets do
     resources :comments
   end

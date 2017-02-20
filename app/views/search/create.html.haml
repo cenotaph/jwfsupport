@@ -1,0 +1,60 @@
+.row
+  .small-12.columns
+  
+    %h3
+      Search results for:
+      %em= params[:searchterm]
+     
+    = pluralize(Ticket.opened.size.to_s, 'open ticket')
+    out of 
+    = Ticket.all.size.to_s
+    total.
+    / .progress{role: :progressbar, tabindex: 0, :'aria-valuenow' => @progress.to_s, class: (@progress <= 10 ? :alert : (@progress <= 45) ? :warning : (@progress <= 75 ? :secondary : (@progress <= 90 ? :primary : :success)))}
+    /   .progress-meter{style: "width: #{@progress}%"}
+      
+    = link_to 'Create new ticket', new_ticket_path, class: [:button]      
+
+   
+.row
+  .small-12.columns    
+    %table
+      %thead
+        %tr
+          %th Project
+          %th #
+          %th Name
+          %th Date due
+          %th Assigned to
+          %th Status
+          %th Resolution
+          %th
+
+
+
+      %tbody
+        - @tickets.each do |ticket|
+          - if can? :manage, ticket
+            %tr{class: [(ticket.status == 2 || ticket.resolution == 2) ? :strikeout : false, ticket.status_line.parameterize.underscore]}
+              %td= link_to ticket.project.name, {controller: :projects, action: :show, id: ticket.project, opened: true}
+              %td= ticket.id.to_s
+              %td= link_to ticket.name, ticket
+              %td= l(ticket.date_requested, format: :short) unless ticket.date_requested.blank?
+              %td
+                - if ticket.assigned.avatar?
+                  = image_tag(ticket.assigned.avatar.url(:thumb).gsub(/development/, 'production'), class: :table_avatar)
+                = link_to ticket.assigned.name, "/tickets?mine=#{ticket.assigned_id.to_s}"
+            
+              %td
+                = ticket.status_line
+
+              %td
+                = ticket.resolution_line
+ 
+              %td
+                = link_to 'Show', ticket, class: [:button, :tiny]
+                - if current_user.has_role?(:admin)                
+                  = link_to 'Edit', edit_ticket_path(ticket), class: [:button, :tiny , :warning]
+
+    %br
+
+    = link_to 'Create new ticket', new_ticket_path, class: [:button]
