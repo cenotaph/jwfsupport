@@ -33,9 +33,15 @@
           %span.label{class: @ticket.status_class}= @ticket.status_line
           %span.label{class: @ticket.resolution_class}= @ticket.resolution_line
           %span.label{class: @ticket.urgency_class}= @ticket.urgency_line
-        
+
+      - unless @ticket.relevant_url.blank?
+        %p
+          %h4 Relevant URL:
+          = link_to @ticket.relevant_url, @ticket.relevant_url, target: :_blank
+
       .ticket_text
         - link_filter = AutoHtml::Link.new(target: '_blank')
+
         %p= raw simple_format(link_filter.call(@ticket.description), {}, sanitize: false)
         -#= simple_format(@ticket.description)
       - unless @ticket.screenshots.empty?
