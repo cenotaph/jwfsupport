@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
 
-  devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' } do
-    delete "/users/sign_out" => "devise/sessions#destroy"
-
+  devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' } 
+  devise_scope :user do
+     get 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
   end
+
+  
   resources :authentications do
     collection do
       post :add_provider
@@ -32,5 +34,5 @@ Rails.application.routes.draw do
     root to: 'tickets#index', opened: "true", as: :authenticated_root
   end
   root to: 'tickets#landing'
-  
+ 
 end

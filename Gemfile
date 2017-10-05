@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.3.3'
+ruby '2.4.2'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
@@ -9,7 +9,7 @@ end
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.0.1'
+gem 'rails', '5.1.4'
 
 gem "pg" #, git: "https://github.com/ged/ruby-pg"
 # Use Puma as the app server
@@ -17,7 +17,7 @@ gem 'puma', group: :production
 
 group :development do
   gem 'better_errors'
-  gem 'binding_of_caller'
+  # gem 'binding_of_caller'
 
   gem 'listen', '~> 3.0.5'
   gem 'ruby_parser', '>= 3.0.1'
@@ -40,7 +40,7 @@ gem 'carrierwave'
 gem 'carrierwave-aws'
 gem 'devise'
 gem 'figaro'
-gem 'font-awesome-rails', '4.6.3.0'
+gem 'font-awesome-rails'
 gem 'friendly_id', '~> 5.1.0'
 gem 'has_scope'
 gem 'kaminari'
@@ -59,14 +59,14 @@ gem 'truncate_html'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'formtastic'
-gem 'foundation-rails'#, "6.3.0.0"
+gem 'foundation-rails', '6.3.1.0'
 gem 'foundation-datepicker-rails'
 gem 'haml'
 gem "haml-rails"#, "~> 0.9"
 gem 'jquery-rails'
 gem 'jquery-turbolinks'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails'#, '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 gem 'foundation-icons-sass-rails'

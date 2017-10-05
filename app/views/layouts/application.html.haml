@@ -7,36 +7,41 @@
     %title= content_for?(:title) ? yield(:title) : "Support desk" 
     %link{href: "https://fonts.googleapis.com/css?family=Lora",  rel: :stylesheet}
     = stylesheet_link_tag "application"
-    
+    = javascript_include_tag "application" 
     = csrf_meta_tags
   %body
     - if current_user
       %header
-        .title-bar{:'data-responsive-toggle' => 'title_menu', :'data-hide-for' => :medium}
-          %button.menu-icon{type: :button, :'data-toggle' => 'title_menu'}
-          .title-bar-title John W. Fail's support desk
-          
-        .top-bar#title_menu
-          .top-bar-left
-            %ul.dropdown.menu{:'data-dropdown-menu' => ''}
-              %li.menu-text John W. Fail's support desk
-              %li= link_to 'My tickets', {controller: '/tickets', action: :index, opened: true, mine: 1}
-              %li
-                = link_to 'My projects', '#'
-                %ul.menu
-                  - if current_user.has_role?(:admin)
-                    - Project.all.order(:name).each do |p|
-                      %li= link_to p.name, {controller: :projects, action: :show, id: p, opened: :true}
-                  - else
-                    - current_user.projects.each do |p|
-                      %li= link_to p.name, {controller: :projects, action: :show, id: p, opened: :true}
-              %li= link_to 'Create new ticket', new_ticket_path
+        %div{:'data-sticky-container' => ''}
+          .title-bar{:'data-responsive-toggle' => 'title_menu', :'data-hide-for' => :medium}
+            %button.menu-icon{type: :button, :'data-toggle' => 'title_menu'}
+            .title-bar-title John W. Fail's support desk
+   
+          .top-bar#title_menu{:'data-sticky' => '', style: 'width: 100%', :'data-options' => 'marginTop: 0;'}
+            .top-bar-left
+              %ul.dropdown.menu{:'data-dropdown-menu' => ''}
+                %li.menu-text John W. Fail's support desk
+                %li= link_to 'My tickets', {controller: '/tickets', action: :index, opened: true, mine: 1}
+                %li
+                  = link_to 'My projects', '#'
+                  %ul.menu.vertical
+                    - if current_user.has_role?(:admin)
+                      - Project.all.order(:name).each do |p|
+                        %li= link_to p.name, {controller: :projects, action: :show, id: p, opened: :true}
+                    - else
+                      - current_user.projects.each do |p|
+                        %li= link_to p.name, {controller: :projects, action: :show, id: p, opened: :true}
+                %li= link_to 'Create new ticket', new_ticket_path
               
-              %li= link_to 'Edit profile', edit_user_path(current_user)
-          .top-bar-right
-            %ul.menu
-              = form_tag '/search' do 
-                %li= text_field_tag :searchterm, params[:searchterm], placeholder: 'Search'
+                %li
+                  = link_to current_user.name, '#'
+                  %ul.menu.vertical
+                    %li= link_to 'Edit profile', edit_user_path(current_user)
+                    %li= link_to 'Sign out',  destroy_user_session_path
+            .top-bar-right
+              %ul.menu
+                = form_tag '/search' do 
+                  %li= text_field_tag :searchterm, params[:searchterm], placeholder: 'Search'
 
       - if flash
         - flash.each do |key, value|

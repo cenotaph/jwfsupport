@@ -70,6 +70,7 @@ bower.json
 
 # Ignore Byebug command history file.
 .byebug_history
+.DS_Store
 sync_db
 config/initializers/user_mapping.rb
 support.sql
