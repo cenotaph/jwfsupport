@@ -21,7 +21,9 @@ Rails.application.routes.draw do
     resources :projects
   end
   
-  resources :users
+  resources :users do
+    get :theme_switch
+  end
 
   post '/search', to: 'search#create'
   resources :tickets do

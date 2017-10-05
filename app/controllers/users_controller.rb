@@ -16,6 +16,12 @@ class UsersController < ApplicationController
     render json: @users
   end
   
+  def theme_switch
+    
+    current_user.update_attribute(:theme, params[:theme])
+    redirect_to '/'
+  end
+  
   def update
     @user = User.friendly.find(params[:id])
     if can? :update, @user

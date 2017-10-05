@@ -7,6 +7,9 @@
     %title= content_for?(:title) ? yield(:title) : "Support desk" 
     %link{href: "https://fonts.googleapis.com/css?family=Lora",  rel: :stylesheet}
     = stylesheet_link_tag "application"
+    - if user_signed_in?
+      - if current_user.theme != 'default'
+        = stylesheet_link_tag current_user.theme
     = javascript_include_tag "application" 
     = csrf_meta_tags
   %body
@@ -27,7 +30,7 @@
                   %ul.menu.vertical
                     - if current_user.has_role?(:admin)
                       - Project.all.order(:name).each do |p|
-                        %li= link_to p.name, {controller: :projects, action: :show, id: p, opened: :true}
+                        %li.small= link_to p.name, {controller: :projects, action: :show, id: p, opened: :true}
                     - else
                       - current_user.projects.each do |p|
                         %li= link_to p.name, {controller: :projects, action: :show, id: p, opened: :true}
@@ -37,6 +40,12 @@
                   = link_to current_user.name, '#'
                   %ul.menu.vertical
                     %li= link_to 'Edit profile', edit_user_path(current_user)
+                    
+                    %li
+                      - if current_user.theme == 'default'
+                        = link_to 'Switch to dark theme',user_theme_switch_path(current_user, theme: 'dark')
+                      - else
+                        = link_to 'Switch to default theme',user_theme_switch_path(current_user, theme: 'default')
                     %li= link_to 'Sign out',  destroy_user_session_path
             .top-bar-right
               %ul.menu

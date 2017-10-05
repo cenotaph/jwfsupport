@@ -1,0 +1,41 @@
+body {
+  background-color: #002b36	;
+  color: #fdf6e3;
+}
+
+a, h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+  color: white;
+}
+a:hover {
+  color: #859900;
+}
+
+.top-bar, .top-bar ul {
+  background-color: #93a1a1;
+
+}
+
+li.menu-text {
+  color: #d33682;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #93a1a1;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #839496;
+}
+
+thead {
+  background-color: #073642;
+  color: #eee8d5;
+}
+
+label, label.label, form li p.inline-hints {
+  color: #eee8d5;
+}
+
+input[type=text], input[type=url], textarea, select{
+  background-color: #93a1a1;
+}
