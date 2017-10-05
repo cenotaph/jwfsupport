@@ -12,7 +12,10 @@ class Ticket < ApplicationRecord
   scope :closed,  ->() { where(status: 2) }
   scope :opened, ->() { where("((status is null or status <> 2) and (resolution is null or resolution = 0))")}
   scope :mine, ->(x) { where(["((status is null or status <> 2) and (resolution is null or resolution = 0)) and assigned_id = ?", x]) }
-  
+  mount_uploader :attachment, AttachmentUploader
+  before_save :update_attachment_attributes
+
+ 
   # scope :opened, -> () { where(["resolution <> 2"]) }
   def urgency_class
     case urgency 
@@ -107,4 +110,18 @@ class Ticket < ApplicationRecord
       return 'duplicate'
     end
   end 
+  
+  
+  private
+  
+  def update_attachment_attributes
+    if attachment.present? && attachment_changed?
+      if attachment.file.exists?
+        self.attachment_content_type = attachment.file.content_type
+        self.attachment_size = attachment.file.size
+      end
+    end
+  end
+  
+  
 end

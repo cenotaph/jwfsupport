@@ -30,9 +30,14 @@
       = f.input :relevant_url, label: 'If a web-related issue, please enter the URL you were trying to access.'
   .row
     .small-10.medium-6.columns
-      = f.fields_for :screenshots do |ss|
-        = ss.input :image 
-      = f.link_to_add 'add a screenshot', :screenshots, class: [:button, :secondary, :tiny]
+      = f.input :attachment, label: 'Add an attachment (PDF, document, etc.) to this ticket?', hint: 'If you are posting a screenshot, click the button below instead.'
+  .row
+    .small-10.medium-6.columns
+      %fieldset
+        %legend Screenshots
+        = f.fields_for :screenshots do |ss|
+          = ss.input :image 
+        = f.link_to_add 'add a screenshot', :screenshots, class: [:button, :secondary, :small]
   .row
     .small-10.medium-6.columns
       = f.input :assigned, as: :select, collection: [['John W. Fail', 1]], label: 'Assign this ticket/task to:', include_blank: false
