@@ -51,7 +51,7 @@ gem 'mini_magick'
 gem 'nested_form'
 gem 'omniauth'
 gem 'omniauth-facebook'
-gem 'redis-rails', '~> 5.0.1'
+gem 'redis-rails'#, '~> 5.0.1'
 gem 'redis'
 gem 'rolify'
 gem 'textacular'
@@ -75,4 +75,3 @@ gem 'coffee-rails'
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 #gem 'jbuilder', '~> 2.5'
-
