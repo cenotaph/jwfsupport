@@ -5,7 +5,7 @@ namespace :helpdesk do
     User.all.each do |user|
       next if user.tickets.opened.empty?
       puts "Sending email to " + user.email + " with " + user.tickets.opened.size.to_s + " open tickets"
-      TicketMailer.old_open_tickets(user).deliver_later
+      TicketMailer.old_open_tickets(user).deliver_now
     end
   end
 

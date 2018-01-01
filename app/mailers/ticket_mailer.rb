@@ -18,6 +18,7 @@ class TicketMailer < ActionMailer::Base
   end
 
   def old_open_tickets(user)
+    @user = user
     mail(from: Figaro.env.mail_sender, to: user.email, subject: "You have open tickets at the John W. Fail helpdesk!")
   end
 
