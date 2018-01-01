@@ -2,13 +2,14 @@ class User < ApplicationRecord
   rolify
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :omniauthable, :registerable, 
+  devise :omniauthable, :registerable,
          :recoverable, :rememberable, :trackable
   has_many :authentications, :dependent => :destroy
   accepts_nested_attributes_for :authentications, :reject_if => proc { |attr| attr['username'].blank? }
   extend FriendlyId
   friendly_id :username , :use => [ :slugged, :finders]
   has_and_belongs_to_many :projects
+  has_many :tickets, foreign_key: :assigned_id
   mount_uploader :avatar, ImageUploader
   # before_save :update_avatar_attributes
   after_create :assign_default_role
@@ -16,8 +17,8 @@ class User < ApplicationRecord
   def assign_default_role
     self.add_role(:user) if self.roles.blank?
   end
-  
-  
+
+
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
@@ -39,7 +40,7 @@ class User < ApplicationRecord
     if omniauth['provider'] == 'facebook'
       self.email = omniauth['info']['email'] if email.blank? || email =~ /change@me/
       self.username = omniauth['info']['name']
-      self.name = omniauth['info']['name'] 
+      self.name = omniauth['info']['name']
       self.name.strip!
       identifier = self.username
       # self.location = omniauth['extra']['user_hash']['location']['name'] if location.blank?
@@ -62,13 +63,13 @@ class User < ApplicationRecord
         self.email = omniauth['info']['email']
       end
     end
-    
+
     # self.password = SecureRandom.hex(32) if password.blank?  # generate random password to satisfy validations
     authentications.build(:provider => omniauth['provider'], :uid => omniauth['uid'], :username => identifier)
   end
-  
+
   private
-  
+
   def update_avatar_attributes
     if avatar.present? && avatar_changed?
       if avatar.file.exists?
@@ -78,6 +79,6 @@ class User < ApplicationRecord
       end
     end
   end
-  
-    
+
+
 end

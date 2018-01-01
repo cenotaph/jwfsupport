@@ -15,10 +15,14 @@ class Ticket < ApplicationRecord
   mount_uploader :attachment, AttachmentUploader
   before_save :update_attachment_attributes
 
- 
+  def name_with_project
+    "#{project.name}: #{name}"
+  end
+
+  
   # scope :opened, -> () { where(["resolution <> 2"]) }
   def urgency_class
-    case urgency 
+    case urgency
     when 0
       return "secondary"
     when 1
@@ -27,11 +31,11 @@ class Ticket < ApplicationRecord
       return "warning"
     when 3
       return "alert"
-    end    
+    end
   end
-  
+
   def urgency_line
-    case urgency 
+    case urgency
     when 0
       return "not a big deal, but would be nice to get this done"
     when 1
@@ -42,7 +46,7 @@ class Ticket < ApplicationRecord
       return "HOLY SHIT DROP EVERYTHING IN YOUR LIFE AND FIX THIS NOW!!!!"
     end
   end
-  
+
   def status_class
     case status
     when 0
@@ -59,7 +63,7 @@ class Ticket < ApplicationRecord
       'primary'
     end
   end
-  
+
   def status_line
     case status
     when 0
@@ -76,7 +80,7 @@ class Ticket < ApplicationRecord
       'new'
     end
   end
-    
+
   def resolution_class
     case resolution
     when nil
@@ -91,9 +95,9 @@ class Ticket < ApplicationRecord
       return 'secondary'
     when 4
       return 'secondary'
-    end    
+    end
   end
-  
+
   def resolution_line
     case resolution
     when nil
@@ -109,11 +113,11 @@ class Ticket < ApplicationRecord
     when 4
       return 'duplicate'
     end
-  end 
-  
-  
+  end
+
+
   private
-  
+
   def update_attachment_attributes
     if attachment.present? && attachment_changed?
       if attachment.file.exists?
@@ -122,6 +126,6 @@ class Ticket < ApplicationRecord
       end
     end
   end
-  
-  
+
+
 end

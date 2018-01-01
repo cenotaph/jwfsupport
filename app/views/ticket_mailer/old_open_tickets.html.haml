@@ -1,0 +1,29 @@
+%p
+  Hi
+  = @user.name + ","
+
+%p
+  This is the automated ticket mailer from the
+  = link_to 'John W. Fail helpdesk.', 'http://support.johnw.fail'
+
+%p
+  Once per month, this email is automatically generated to inform you that there are open tickets currently assigned to you in the helpdesk system.
+
+%p
+  Please visit the following tickets and either close them (by changing both the STATUS and RESOLUTION fields)
+  or reassign them to someone else.
+
+%p
+  Your open tickets:textile
+
+  %ol
+    - @user.tickets.opened.each do |ticket|
+      %li= link_to ticket.name_with_project, ticket
+
+%p
+  Thank you for your patience and tolerance. Remember, a helpdesk with zero open tickets is a successful helpdesk!
+
+%p
+  Sincerely,
+
+%p John
