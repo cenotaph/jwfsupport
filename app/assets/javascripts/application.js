@@ -11,7 +11,7 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery.turbolinks
+
 //= require jquery_ujs
 //= require foundation
 
@@ -19,8 +19,8 @@
 //= require foundation-datepicker
 //= require_tree .
 
-  $(function(){ 
-   
+  $(function(){
+
     $(document).foundation();
 
    });

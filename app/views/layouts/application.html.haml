@@ -4,13 +4,13 @@
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
     %meta{:charset => "utf-8"}/
     %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
-    %title= content_for?(:title) ? yield(:title) : "Support desk" 
+    %title= content_for?(:title) ? yield(:title) : "Support desk"
     %link{href: "https://fonts.googleapis.com/css?family=Lora",  rel: :stylesheet}
     = stylesheet_link_tag "application"
     - if user_signed_in?
       - if current_user.theme != 'default'
         = stylesheet_link_tag current_user.theme
-    = javascript_include_tag "application" 
+    = javascript_include_tag "application"
     = csrf_meta_tags
   %body
     - if current_user
@@ -19,7 +19,7 @@
           .title-bar{:'data-responsive-toggle' => 'title_menu', :'data-hide-for' => :medium}
             %button.menu-icon{type: :button, :'data-toggle' => 'title_menu'}
             .title-bar-title John W. Fail's support desk
-   
+
           .top-bar#title_menu{:'data-sticky' => '', style: 'width: 100%', :'data-options' => 'marginTop: 0;'}
             .top-bar-left
               %ul.dropdown.menu{:'data-dropdown-menu' => ''}
@@ -35,12 +35,12 @@
                       - current_user.projects.each do |p|
                         %li= link_to p.name, {controller: :projects, action: :show, id: p, opened: :true}
                 %li= link_to 'Create new ticket', new_ticket_path
-              
+
                 %li
                   = link_to current_user.name, '#'
                   %ul.menu.vertical
                     %li= link_to 'Edit profile', edit_user_path(current_user)
-                    
+
                     %li
                       - if current_user.theme == 'default'
                         = link_to 'Switch to dark theme',user_theme_switch_path(current_user, theme: 'dark')
@@ -49,7 +49,7 @@
                     %li= link_to 'Sign out',  destroy_user_session_path
             .top-bar-right
               %ul.menu
-                = form_tag '/search' do 
+                = form_tag '/search' do
                   %li= text_field_tag :searchterm, params[:searchterm], placeholder: 'Search'
 
       - if flash
@@ -58,6 +58,6 @@
             %strong= raw value
 
     = yield
-    
+
     :javascript
       $(document).ready(function() { #{yield :jquery} });

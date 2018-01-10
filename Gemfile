@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.4.2'
+ruby '2.4.3'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
@@ -64,7 +64,7 @@ gem 'foundation-datepicker-rails'
 gem 'haml'
 gem "haml-rails"#, "~> 0.9"
 gem 'jquery-rails'
-gem 'jquery-turbolinks'
+# gem 'jquery-turbolinks'
 # Use SCSS for stylesheets
 gem 'sass-rails'#, '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -72,6 +72,6 @@ gem 'uglifier', '>= 1.3.0'
 gem 'foundation-icons-sass-rails'
 gem 'coffee-rails'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks', '~> 5'
+# gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 #gem 'jbuilder', '~> 2.5'
