@@ -1,3 +1,12 @@
+.top-bar {
+  z-index: 99999;
+
+  ul.submenu li[role=menuitem]:hover {
+    background-color: yellow;
+    font-weight: bold;
+  }
+}
+
 form  {
   li {
     list-style-type: none;
@@ -58,13 +67,13 @@ label.label {
 .time_select .form-control select,
 .datetime .form-control select,
 .date .form-control select,
-.time .form-control select 
+.time .form-control select
 {
 	/* This works for me in FireFox but does not work in
 	   Safari or Chrome (31.)  If I set a background-color
 	   it will suddenly work in both of those browsers.
 	*/
-	height: 34px; 
+	height: 34px;
 }
 
 .ticket_text {
@@ -197,8 +206,8 @@ h1.ticket_header {
 fieldset {
   border: 1px solid black;
   padding: 15px;
-  
-  
+
+
   legend {
     font-size: 1.2rem;
     padding: 0 0.4rem;
