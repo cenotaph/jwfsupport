@@ -34,6 +34,10 @@ class Ticket < ApplicationRecord
     end
   end
 
+  def open?
+    resolution != 1
+  end
+
   def urgency_line
     case urgency
     when 0

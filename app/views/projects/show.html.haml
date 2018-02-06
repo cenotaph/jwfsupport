@@ -52,10 +52,12 @@
         - @tickets.each do |ticket|
           %tr{class: [(ticket.status == 2 || ticket.resolution == 2) ? :strikeout : false, ticket.status_line.parameterize.underscore]}
             %td= ticket.id.to_s
-            %td= link_to ticket.name, ticket
+            %td
+              = image_tag "urgency/#{ticket.urgency.to_s}.png", width: 35
+              = link_to ticket.name, ticket
             %td
               - unless ticket.date_requested.blank?
-                - if ticket.date_requested <= Time.now.utc.to_date
+                - if ticket.date_requested <= Time.now.utc.to_date && ticket.open?
                   .red 
                     OVERDUE!
                     %br/
