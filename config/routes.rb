@@ -31,7 +31,7 @@ Rails.application.routes.draw do
   end
   
   match '/users/auth/:provider/callback' => 'authentications#create', :via => :get
-
+  match '/hashtag' => 'tickets#hashtag', via: :get
   authenticated :user do
     root to: 'tickets#index', opened: "true", as: :authenticated_root
   end

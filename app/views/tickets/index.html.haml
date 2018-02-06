@@ -1,14 +1,17 @@
+
 .row
   .small-12.columns
+    - if @hashtag
+      %h3= @hashtag
+    - else
+      %h3= link_to 'To be done...', 'http://dighist.fas.harvard.edu/courses/2016/HUM11c/exhibits/show/comparative-readings/nothing-to-be-done--a-comparat', target: :_blank
 
-    %h3= link_to 'To be done...', 'http://dighist.fas.harvard.edu/courses/2016/HUM11c/exhibits/show/comparative-readings/nothing-to-be-done--a-comparat', target: :_blank
-
-    = pluralize(Ticket.opened.size.to_s, 'open ticket')
-    out of
-    = Ticket.all.size.to_s
-    total.
-    .progress{role: :progressbar, tabindex: 0, :'aria-valuenow' => @progress.to_s, class: (@progress <= 10 ? :alert : (@progress <= 45) ? :warning : (@progress <= 75 ? :secondary : (@progress <= 90 ? :primary : :success)))}
-      .progress-meter{style: "width: #{@progress}%"}
+      = pluralize(Ticket.opened.size.to_s, 'open ticket')
+      out of
+      = Ticket.all.size.to_s
+      total.
+      .progress{role: :progressbar, tabindex: 0, :'aria-valuenow' => @progress.to_s, class: (@progress <= 10 ? :alert : (@progress <= 45) ? :warning : (@progress <= 75 ? :secondary : (@progress <= 90 ? :primary : :success)))}
+        .progress-meter{style: "width: #{@progress}%"}
 
     = link_to 'Create new ticket', new_ticket_path, class: [:button]
 

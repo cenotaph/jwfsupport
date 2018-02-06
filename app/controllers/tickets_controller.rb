@@ -27,12 +27,23 @@ class TicketsController < ApplicationController
 
   end
 
+  def hashtag
+    # look through all of a user's tickets they can see at least for hashtags
+    @hashtag = params[:q]
+    @tickets = []
+    Ticket.all.each do |ticket|
+      @tickets.push(ticket) if !ticket.description.match(@hashtag).nil? && (can? :read, ticket)
+    end
+    @progress =  0
+    render template: 'tickets/index'
+  end
 
   def landing
     
   end
   # GET /tickets/1
   def show
+
     @progress_project = (@ticket.project.tickets.closed.size.to_f / @ticket.project.tickets.size.to_f).to_f * 100
     unless @ticket.project.users.include?(current_user) || current_user.has_role?(:admin) 
       flash[:error] = 'You do not have permission to view this ticket.'

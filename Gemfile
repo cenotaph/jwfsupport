@@ -13,11 +13,11 @@ gem 'rails', '5.1.4'
 
 gem "pg" #, git: "https://github.com/ged/ruby-pg"
 # Use Puma as the app server
-gem 'puma', group: :production
+gem 'puma', '~> 3.7'
 
 group :development do
   gem 'better_errors'
-  # gem 'binding_of_caller'
+  gem 'binding_of_caller'
 
   gem 'listen', '~> 3.0.5'
   gem 'ruby_parser', '>= 3.0.1'
