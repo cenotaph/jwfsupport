@@ -52,7 +52,7 @@
       .ticket_text
         - link_filter = AutoHtml::Link.new(target: '_blank')
 
-        %p= raw find_tickets(simple_format(link_filter.call(@ticket.description.gsub(/#([\D^ ]+)/, '<a href="/hashtag?q=%23\1" class="hashtag" target="_blank">#\1</a>')), {}, sanitize: false))
+        %p= raw find_tickets(simple_format(link_filter.call(@ticket.description.gsub(/#([\D][^ ]+)/, '<a href="/hashtag?q=%23\1" class="hashtag" target="_blank">#\1</a>')), {}, sanitize: false))
         -#= simple_format(@ticket.description)
       - unless @ticket.attachment.blank?
         = link_to "Download " + @ticket[:attachment] + " (#{@ticket.attachment_size} bytes)", @ticket.attachment.url, class: [:button]
