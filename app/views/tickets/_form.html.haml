@@ -54,7 +54,7 @@
 
 = content_for :jquery do  
   :plain
-    $('.date_picker').fdatepicker({ format: 'dd-mm-yyyy '});
+    $('.date_picker').fdatepicker({ format: 'yyyy-mm-dd'});
     $('#ticket_project_id').change(function() {
       $("#ticket_assigned_id").html(new Option('John W. Fail', 1));
       $.ajax({

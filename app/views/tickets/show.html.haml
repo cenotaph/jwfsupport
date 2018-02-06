@@ -35,6 +35,14 @@
           %span.label{class: @ticket.status_class}= @ticket.status_line
           %span.label{class: @ticket.resolution_class}= @ticket.resolution_line
           %span.label{class: @ticket.urgency_class}= @ticket.urgency_line
+      - unless @ticket.date_requested.blank?
+        %p
+          %h4 
+            Due:
+            - if @ticket.date_requested <= Time.now.utc.to_date
+              .red OVERDUE!
+            - else
+              = @ticket.date_requested.strftime("%d %B %Y")
 
       - unless @ticket.relevant_url.blank?
         %p
@@ -43,7 +51,7 @@
 
       .ticket_text
         - link_filter = AutoHtml::Link.new(target: '_blank')
-        
+
         %p= raw simple_format(link_filter.call(@ticket.description.gsub(/#([^ ]+)/, '<a href="/hashtag?q=%23\1" class="hashtag" target="_blank">#\1</a>')), {}, sanitize: false)
         -#= simple_format(@ticket.description)
       - unless @ticket.attachment.blank?

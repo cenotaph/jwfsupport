@@ -146,6 +146,9 @@ td {
       height: 45px;
       width: auto;
     }
+    .red {
+      color: red;
+    }
 }
 
 tr.waiting_for_feedback {
@@ -186,6 +189,9 @@ h1.ticket_header {
       height: auto;
     }
   }
+}
+h4 .red {
+  color: red;
 }
 
 .ticket_heading {

@@ -50,7 +50,15 @@
             %td= link_to ticket.project.name, {controller: :projects, action: :show, id: ticket.project, opened: true}
             %td= ticket.id.to_s
             %td= link_to ticket.name, ticket
-            %td= l(ticket.date_requested, format: :short) unless ticket.date_requested.blank?
+            %td
+              - unless ticket.date_requested.blank?
+                - if ticket.date_requested <= Time.now.utc.to_date
+                  .red 
+                    OVERDUE!
+                    %br/
+                    %small= ticket.date_requested.strftime("%d %B %Y")
+                - else
+                  = ticket.date_requested.strftime("%d %B %Y")
             %td
               - if ticket.assigned.avatar?
                 = image_tag(ticket.assigned.avatar.url(:thumb).gsub(/development/, 'production'), class: :table_avatar)
