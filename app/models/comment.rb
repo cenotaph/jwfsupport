@@ -1,5 +1,5 @@
 class Comment < ApplicationRecord
-  belongs_to :ticket
+  belongs_to :ticket, touch: true
   belongs_to :user
   validates_presence_of :ticket_id, :user_id
   

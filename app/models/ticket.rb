@@ -1,4 +1,5 @@
 class Ticket < ApplicationRecord
+  acts_as_readable 
   belongs_to :tickettype
   belongs_to :project
   belongs_to :user

@@ -57,6 +57,7 @@ gem 'rolify'
 gem 'textacular'
 gem 'truncate_html'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'unread'
 
 gem 'formtastic'
 gem 'foundation-rails', '6.3.1.0'

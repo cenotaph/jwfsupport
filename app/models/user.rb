@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   rolify
+  acts_as_reader
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :omniauthable, :registerable,

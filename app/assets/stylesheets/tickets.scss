@@ -149,6 +149,11 @@ td {
     .red {
       color: red;
     }
+    &.status {
+      font-size: 0.8rem;
+      text-transform: lowercase;
+
+    }
 }
 
 tr.waiting_for_feedback {

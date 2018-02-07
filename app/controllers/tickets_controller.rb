@@ -9,13 +9,13 @@ class TicketsController < ApplicationController
   def index
 
     if current_user.has_role? :admin
-      @tickets = apply_scopes(Ticket).all.order(created_at: :desc)
+      @tickets = apply_scopes(Ticket).all.order(updated_at: :desc)
       @opened_count = Ticket.opened.size
       @closed_count = Ticket.closed.size
       @total_count = Ticket.all.size
       
     else
-      @tickets = apply_scopes(Ticket.includes(:project => :users).where('projects_users.user_id'  => current_user.id )).all.sort_by(&:created_at).reverse
+      @tickets = apply_scopes(Ticket.includes(:project => :users).where('projects_users.user_id'  => current_user.id )).all.sort_by(&:updated_at).reverse
       @opened_count = Ticket.includes(:project => :users).where('projects_users.user_id'  => current_user.id ).opened.size
       @closed_count = Ticket.includes(:project => :users).where('projects_users.user_id'  => current_user.id ).closed.size
       @total_count = Ticket.includes(:project => :users).where('projects_users.user_id'  => current_user.id ).size
@@ -49,6 +49,7 @@ class TicketsController < ApplicationController
       flash[:error] = 'You do not have permission to view this ticket.'
       redirect_to '/'
     end
+    @ticket.mark_as_read! for: current_user
   end
 
   # GET /tickets/new
