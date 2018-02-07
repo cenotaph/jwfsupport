@@ -53,10 +53,10 @@
               = image_tag "urgency/#{ticket.urgency.to_s}.png", width: 55
             %td
               = link_to ticket.name, ticket
-              - if ticket.created_at > current_user.last_sign_in_at
-                %span.label.alert NEW!
-              - elsif !current_user.have_read?(ticket)
-                %small
+              - if !current_user.have_read?(ticket)
+                - if ticket.created_at > current_user.last_sign_in_at
+                  %span.label.alert NEW!
+                - else
                   %span.label.warning UPDATED
               .date_due
                 - unless ticket.date_requested.blank?
@@ -79,7 +79,9 @@
               = ticket.resolution_line
               %br/
               %small
-                %em= time_ago_in_words(ticket.updated_at) + ' ago'
+                %em
+                  last activity
+                  = time_ago_in_words(ticket.updated_at) + ' ago'
             %td
               = link_to 'Show', ticket, class: [:button, :tiny]
               - if current_user.has_role?(:admin)

@@ -39,11 +39,9 @@
       %thead
         %tr
           %th #
-          %th Name
-          %th Date due
+          %th{colspan: 2} Name
           %th Assigned to
           %th Status
-          %th Resolution
           %th
 
 
@@ -53,27 +51,45 @@
           %tr{class: [(ticket.status == 2 || ticket.resolution == 2) ? :strikeout : false, ticket.status_line.parameterize.underscore]}
             %td= ticket.id.to_s
             %td
-              = image_tag "urgency/#{ticket.urgency.to_s}.png", width: 35
-              = link_to ticket.name, ticket
+              = image_tag "urgency/#{ticket.urgency.to_s}.png", width: 55
             %td
-              - unless ticket.date_requested.blank?
-                - if ticket.date_requested <= Time.now.utc.to_date && ticket.open?
-                  .red 
-                    OVERDUE!
-                    %br/
-                    %small= ticket.date_requested.strftime("%d %B %Y")
+              = link_to ticket.name, ticket
+              - if !current_user.have_read?(ticket)
+                - if ticket.created_at > current_user.last_sign_in_at
+                  %span.label.alert NEW!
                 - else
-                  = ticket.date_requested.strftime("%d %B %Y")
+                  %span.label.warning UPDATED
+              .date_due
+                - unless ticket.date_requested.blank?
+                  - if ticket.date_requested <= Time.now.utc.to_date && ticket.open?
+                    .red 
+                      OVERDUE!
+                      %br/
+                      %small= ticket.date_requested.strftime("%d %B %Y")
+                  - else
+                    = ticket.date_requested.strftime("%d %B %Y")              
+ 
+
             %td
               - if ticket.assigned.avatar?
                 = image_tag(ticket.assigned.avatar.url(:thumb).gsub(/development/, 'production'), class: :table_avatar)
-              = link_to ticket.assigned.name, "/projects/#{@project.slug}?mine=#{ticket.assigned_id.to_s}"
-            %td= ticket.status_line
-            %td= ticket.resolution_line
+                %br/
+              %small= link_to ticket.assigned.name, "/projects/#{@project.slug}?mine=#{ticket.assigned_id.to_s}"
+            %td.status
+              = ticket.status_line
+              = "/"
+              = ticket.resolution_line
+              %br/
+              %small
+                %em
+                  last activity
+                  = time_ago_in_words(ticket.updated_at) + ' ago'
+
+
             %td
               = link_to 'Show', ticket, class: [:button, :tiny]
               - if current_user.has_role?(:admin)
-                = link_to 'Edit', edit_ticket_path(ticket), class: [:button, :tiny]
+                = link_to 'Edit', edit_ticket_path(ticket), class: [:button, :warning, :tiny]
 
     %br
 
