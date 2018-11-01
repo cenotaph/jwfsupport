@@ -151,7 +151,9 @@
               = ff.input :screenshot,  label: 'Attach image/screenshot to comment?'
               = ff.input :attachment, :label => 'Attach PDF or other file to comment?'
               - unless @ticket.project.github_repo.blank?
-                = ff.input :commit_hash, label: 'GitHub commit hash', hint: 'optional!'
+                .row
+                  .small-6.columns= ff.input :commit_hash, label: 'GitHub commit hash', hint: 'optional!'
+                  .small-6.columns= ff.input :branch, label: 'Git branch' 
             .row
               .small-12.columns Change status with this comment:
             .small-10.medium-4.columns

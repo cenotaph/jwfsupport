@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180207090658) do
+ActiveRecord::Schema.define(version: 20180221095322) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 20180207090658) do
     t.datetime "updated_at", null: false
     t.boolean "is_system", default: false, null: false
     t.string "commit_hash"
+    t.string "branch", default: "master", null: false
     t.index ["ticket_id"], name: "index_comments_on_ticket_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
