@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' } 
   devise_scope :user do
-     get 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
+     # get 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
   end
 
   
@@ -35,6 +35,8 @@ Rails.application.routes.draw do
   authenticated :user do
     root to: 'tickets#index', opened: "true", as: :authenticated_root
   end
+  get 'users_by_project' => 'projects#users_by_project'
   root to: 'tickets#landing'
+
  
 end

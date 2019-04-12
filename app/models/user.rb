@@ -3,7 +3,7 @@ class User < ApplicationRecord
   acts_as_reader
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :omniauthable, :registerable,
+  devise :omniauthable, :registerable, :database_authenticatable,
          :recoverable, :rememberable, :trackable
   has_many :authentications, :dependent => :destroy
   accepts_nested_attributes_for :authentications, :reject_if => proc { |attr| attr['username'].blank? }
@@ -17,6 +17,10 @@ class User < ApplicationRecord
 
   def assign_default_role
     self.add_role(:user) if self.roles.blank?
+  end
+
+  def name_num
+    "#{name} (#{id})"
   end
 
 

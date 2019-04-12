@@ -22,5 +22,12 @@
   $(function(){
 
     $(document).foundation();
+    $("select#ticket_project_id").on("change", function() {
+      $.ajax({
+          url:  "/users_by_project",
+          type: "GET",
+          data: { selected_project: $("select#ticket_project_id").val() }
+      })
+    })
 
    });

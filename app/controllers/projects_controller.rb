@@ -22,4 +22,9 @@ class ProjectsController < ApplicationController
     end
   end
   
+  def users_by_project
+    @users = Project.find(params[:selected_project]).users
+    @users = @users.to_a.delete_if{|x| x.id == 1 }.sort_by(&:name).uniq.unshift(User.find(1)).flatten
+
+  end
 end
