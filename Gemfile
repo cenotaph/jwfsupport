@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.6.2'
+ruby '2.7.0'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
@@ -9,7 +9,7 @@ end
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.1.7'
+gem 'rails', '5.2.4.1'
 
 gem "pg" #, git: "https://github.com/ged/ruby-pg"
 # Use Puma as the app server
@@ -28,7 +28,7 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'thin'
 end
-
+gem 'autoprefixer-rails'
 gem 'capistrano'
 gem 'capistrano-rails'#, '1.1.3'
 gem 'capistrano-rvm'
@@ -60,7 +60,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'unread'
 
 gem 'formtastic'
-gem 'foundation-rails', '6.3.1.0'
+gem 'foundation-rails' #, '6.3.1.0'
 gem 'foundation-datepicker-rails'
 gem 'haml'
 gem "haml-rails"#, "~> 0.9"
