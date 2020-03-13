@@ -4,8 +4,8 @@ class Ticket < ApplicationRecord
   belongs_to :project
   belongs_to :user
   belongs_to :assigned, class_name: 'User', foreign_key: :assigned_id
-  has_many :screenshots
-  has_many :comments
+  has_many :screenshots, dependent: :destroy
+  has_many :comments, dependent: :destroy
   validates_presence_of :user_id, :tickettype_id, :project_id, :name, :description, :assigned_id
   attr_accessor :send_email, :system_call, :notification_ids
   accepts_nested_attributes_for :screenshots, :reject_if => proc {|attributes| attributes['image'].blank? && attributes['image_cache'].blank?}, :allow_destroy => true
