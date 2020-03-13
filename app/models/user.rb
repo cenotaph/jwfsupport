@@ -10,7 +10,7 @@ class User < ApplicationRecord
   extend FriendlyId
   friendly_id :username , :use => [ :slugged, :finders]
   has_and_belongs_to_many :projects
-  has_many :tickets, foreign_key: :assigned_id
+  has_many :tickets, foreign_key: :assigned_id, dependent: :destroy
   mount_uploader :avatar, ImageUploader
   # before_save :update_avatar_attributes
   after_create :assign_default_role
