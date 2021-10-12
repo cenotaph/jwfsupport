@@ -13,7 +13,7 @@ gem 'rails', '5.2.4.1'
 
 gem "pg" #, git: "https://github.com/ged/ruby-pg"
 # Use Puma as the app server
-gem 'puma', '~> 4.3.5'
+gem 'puma', '~> 4.3.9'
 
 group :development do
   gem 'better_errors'
