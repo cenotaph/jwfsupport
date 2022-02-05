@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.7.0'
+ruby '2.7.5'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
@@ -9,11 +9,11 @@ end
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.2.4.1'
+gem 'rails', '6.1.4.4'
 
 gem "pg" #, git: "https://github.com/ged/ruby-pg"
 # Use Puma as the app server
-gem 'puma', '~> 4.3.5'
+gem 'puma', '~> 5'
 
 group :development do
   gem 'better_errors'
@@ -45,7 +45,7 @@ gem 'friendly_id', '~> 5.1.0'
 gem 'has_scope'
 gem 'kaminari'
 gem 'meta-tags'
-gem 'letter_opener'
+gem 'letter_opener', group: :development
 gem 'mimemagic'
 gem 'mini_magick'
 gem 'nested_form'
@@ -71,7 +71,7 @@ gem 'sass-rails'#, '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 gem 'foundation-icons-sass-rails'
-gem 'coffee-rails'
+# gem 'coffee-rails'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 # gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
