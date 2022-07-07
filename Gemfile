@@ -9,11 +9,11 @@ end
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '6.1.4.4'
+gem 'rails', '6.1.5.1'
 
 gem "pg" #, git: "https://github.com/ged/ruby-pg"
 # Use Puma as the app server
-gem 'puma', '~> 5'
+gem 'puma', '~> 5.6'
 
 group :development do
   gem 'better_errors'
